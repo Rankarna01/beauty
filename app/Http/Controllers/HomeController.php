@@ -96,6 +96,8 @@ class HomeController extends Controller
         $headerImageUrl = null;
         if ($coverPhoto) {
             $headerImageUrl = str_starts_with($coverPhoto, 'http') ? $coverPhoto : asset('storage/' . $coverPhoto);
+        } else {
+            $headerImageUrl = asset('images/putri_salon_reception.jpg');
         }
 
         $phoneMain = setting('contact.whatsapp_main', '6281362673728');

@@ -16,5 +16,11 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertSee('Putri');
+        $response->assertSee('BEAUTY CARE');
+        $response->assertSee('Cantik');
+        $response->assertSee('Percaya Diri');
+        $response->assertSee('081362673728');
+        $response->assertSee('Facial Treatment');
     }
 }

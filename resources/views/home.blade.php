@@ -4,149 +4,56 @@
 <div class="relative w-full flex flex-col bg-[#FFF5F9] min-h-screen">
 
     <!-- ========================================================================= -->
-    <!-- 1. HEADER SECTION (Feminine Luxury Pink + Salon Reception + Crown Brand)  -->
+    <!-- 1. HERO BANNER (Official Graphic Poster with Interactive Hotspots)       -->
     <!-- ========================================================================= -->
-    <header class="relative w-full bg-gradient-to-br from-[#FF1A8C] via-[#E6107A] to-[#C2095F] text-white pt-6 pb-10 px-4 sm:px-6 overflow-hidden rounded-b-[2.2rem] shadow-lg">
+    <header class="relative w-full overflow-hidden shadow-md select-none bg-[#FFF5F9]" style="aspect-ratio: 436 / 220;">
         
-        <!-- Subtle Botanical Petal Silhouettes -->
-        <div class="absolute -top-6 -left-6 w-36 h-36 opacity-20 pointer-events-none">
-            <svg viewBox="0 0 100 100" fill="white">
-                <path d="M50 0 C60 25 75 40 100 50 C75 60 60 75 50 100 C40 75 25 60 0 50 C25 40 40 25 50 0 Z"/>
-            </svg>
+        <!-- High-Definition Clean Graphic Banner Matching Reference Poster -->
+        <img src="{{ asset('images/putri_header_banner.png') }}" 
+             alt="{{ $brandName }} – {{ $tagline }}" 
+             class="w-full h-full object-cover block select-none pointer-events-none"
+             draggable="false">
+
+        <!-- Hidden Semantic Heading for SEO & Screen Readers -->
+        <div class="sr-only">
+            <h1>{{ $brandName }} BEAUTY CARE</h1>
+            <p>{{ $tagline }}</p>
+            <p>Facial Treatment • Hair Cut • Creambath • Hairmask • Manicure • Nail Art • Head Spa</p>
+            <p>Cantik Sehat Percaya Diri ♡ Setiap Hari</p>
+            <p>WhatsApp: {{ $phoneMain }} (081362673728)</p>
+            <p>Lokasi: {{ $location?->name ?? 'Head Japanese Spa' }} - {{ $location?->address ?? 'Jl. Sultan Iskandar Muda, Banda Aceh' }}</p>
         </div>
-        <div class="absolute bottom-2 -right-10 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
 
-        <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-5">
-            
-            <!-- Left: Crown, Monogram, Brand Typography & Service Chips -->
-            <div class="flex-1 flex flex-col items-center sm:items-start text-center sm:text-left">
-                
-                <!-- Crown & Monogram Emblem -->
-                <div class="flex items-center gap-2 mb-1.5">
-                    <!-- Gold Crown SVG -->
-                    <svg class="w-6 h-6 text-[#F7E7B4] drop-shadow" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5m14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-                    </svg>
+        <!-- Interactive Clickable Hotspots overlaying the Capsule Pill -->
+        <!-- 1. WhatsApp Button Hotspot -->
+        <a href="https://wa.me/{{ $cleanPhone }}?text={{ rawurlencode('Halo Putri Beauty Care, saya ingin bertanya seputar layanan salon & skincare.') }}" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           aria-label="Chat WhatsApp Putri Beauty Care {{ $phoneMain }}"
+           title="WhatsApp: {{ $phoneMain }}"
+           class="absolute z-20 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer active:scale-95 transition-transform"
+           style="left: 12%; top: 76%; width: 29%; height: 16%;">
+            <span class="sr-only">Hubungi WhatsApp {{ $phoneMain }}</span>
+        </a>
 
-                    <!-- Stylized Hijab & Face Emblem -->
-                    <div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/50 flex items-center justify-center p-1 shadow-inner">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12c0 3.84 2.16 7.18 5.34 8.87.27-.47.66-1.12 1.07-1.87-.27-.64-.41-1.33-.41-2 0-2.76 2.24-5 5-5s5 2.24 5 5c0 .67-.14 1.36-.41 2 .41.75.8 1.4 1.07 1.87C20.84 19.18 23 15.84 23 12c0-5.52-4.48-10-11-10z"/>
-                        </svg>
-                    </div>
+        <!-- 2. Location Button Hotspot -->
+        <a href="{{ $location?->maps_url ?? 'https://maps.google.com/?q=Putri+Beauty+Care+Banda+Aceh' }}" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           aria-label="Petunjuk Arah Google Maps {{ $location?->name ?? 'Head Japanese Spa' }}"
+           title="Petunjuk Arah: {{ $location?->name ?? 'Head Japanese Spa' }}"
+           class="absolute z-20 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer active:scale-95 transition-transform"
+           style="left: 42%; top: 76%; width: 34%; height: 16%;">
+            <span class="sr-only">Lokasi {{ $location?->name ?? 'Head Japanese Spa' }}</span>
+        </a>
 
-                    <!-- Monogram Script P with Gold Leaf -->
-                    <span class="font-['Great_Vibes'] text-3xl font-bold text-[#F7E7B4] ml-0.5 drop-shadow">P</span>
-                </div>
-
-                <!-- Main Brand Typography -->
-                <h1 class="font-['Great_Vibes'] text-5xl sm:text-6xl text-white font-normal leading-none tracking-wide drop-shadow-md">
-                    {{ $brandName }}
-                </h1>
-                <div class="text-[11px] sm:text-xs font-extrabold tracking-[0.25em] text-white uppercase mt-1 drop-shadow-sm">
-                    BEAUTY CARE
-                </div>
-
-                <!-- Subtitle with Gold Divider Lines -->
-                <div class="flex items-center gap-2 my-2 w-full max-w-xs justify-center sm:justify-start">
-                    <span class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-[#F7E7B4]"></span>
-                    <span class="text-[10px] sm:text-[11px] font-bold tracking-wider text-[#F7E7B4] uppercase whitespace-nowrap">
-                        {{ $tagline }}
-                    </span>
-                    <span class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#F7E7B4]"></span>
-                </div>
-
-                <!-- Featured Service Chips -->
-                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1 sm:gap-1.5 mt-0.5 max-w-sm text-[10px] sm:text-[11px] text-white/95 font-medium leading-relaxed">
-                    @foreach($chips as $index => $chip)
-                        <span>{{ $chip }}</span>
-                        @if(!$loop->last)
-                            <span class="text-[#F7E7B4] font-bold">•</span>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-
-            <!-- Right: Slogan Script + Dynamic Salon Interior Photo Card -->
-            <div class="flex flex-col items-center sm:items-end justify-center">
-                <!-- Floating Script Slogan -->
-                <div class="font-['Great_Vibes'] text-2xl sm:text-3xl text-white text-center sm:text-right leading-tight mb-2 drop-shadow-md">
-                    Cantik Sehat<br>
-                    <span>Percaya Diri ♡</span><br>
-                    <span class="text-xl sm:text-2xl">Setiap Hari</span>
-                </div>
-
-                <!-- Dynamic Aesthetic Salon Interior Photo Card -->
-                <div class="w-36 h-26 sm:w-40 sm:h-28 rounded-2xl overflow-hidden border-2 border-white/80 shadow-xl relative bg-gradient-to-tr from-pink-300 to-rose-100 flex items-center justify-center group">
-                    @php
-                        $cover = $headerImageUrl ?: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80';
-                    @endphp
-                    <img src="{{ $cover }}" alt="Putri Beauty Care Banda Aceh" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#C2095F]/70 via-transparent to-black/10"></div>
-                    <div class="absolute bottom-1.5 right-1.5 z-10 text-center text-white px-2 py-0.5 bg-black/40 backdrop-blur-xs rounded-md border border-white/40 text-[9px] font-bold tracking-widest uppercase">
-                        BANDA ACEH
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </header>
-
-
-    <!-- ========================================================================= -->
-    <!-- 2. QUICK CONTACT PILL BAR (WhatsApp & Location)                           -->
-    <!-- ========================================================================= -->
-    <div class="relative z-20 px-3 sm:px-4 -mt-6">
-        <div class="w-full bg-white rounded-full gold-border shadow-lg p-2 sm:p-2.5 flex items-center justify-between gap-1 sm:gap-2">
-            
-            <!-- WhatsApp Action -->
-            <a href="https://wa.me/{{ $cleanPhone }}?text={{ rawurlencode('Halo Putri Beauty Care, saya ingin bertanya seputar layanan salon & skincare.') }}" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               class="flex-1 flex items-center justify-center gap-2 py-1 px-2 rounded-full hover:bg-emerald-50 transition-colors group">
-                <!-- Green WA Circle -->
-                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
-                    <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.514 0-10 4.486-10 10 0 1.764.459 3.421 1.261 4.869l-1.341 4.903 5.02-1.316c1.397.763 2.99 1.199 4.685 1.199 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/>
-                    </svg>
-                </div>
-                <span class="font-bold text-xs sm:text-sm text-[#3B1A2B] tracking-tight">
-                    {{ $phoneMain }}
-                </span>
-            </a>
-
-            <!-- Divider -->
-            <div class="h-8 w-[1px] bg-gradient-to-b from-[#C9A24B]/20 via-[#C9A24B]/70 to-[#C9A24B]/20"></div>
-
-            <!-- Location Action -->
-            <a href="{{ $location?->maps_url ?? 'https://maps.google.com/?q=Putri+Beauty+Care+Banda+Aceh' }}" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               class="flex-1 flex items-center justify-center gap-2 py-1 px-2 rounded-full hover:bg-rose-50 transition-colors group">
-                <!-- Pink Pin Circle -->
-                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-[#E6107A] to-[#C2095F] text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
-                    <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
-                    </svg>
-                </div>
-                <div class="flex flex-col text-left leading-tight">
-                    <span class="font-bold text-[11px] sm:text-xs text-[#3B1A2B] line-clamp-1">
-                        {{ $location?->name ?? 'Head Japanese Spa' }}
-                    </span>
-                    <span class="text-[9px] sm:text-[10px] text-[#8A6477] line-clamp-1">
-                        {{ $location?->address ?? 'Jl. Sultan Iskandar Muda, Banda Aceh' }}
-                    </span>
-                </div>
-            </a>
-
-        </div>
-    </div>
 
 
     <!-- ========================================================================= -->
     <!-- 3. THE 8 MENU PILL BUTTONS (2-Column Grid Matching the Reference Poster)   -->
     <!-- ========================================================================= -->
-    <main class="w-full px-3 sm:px-4 mt-5 pb-6">
+    <main class="w-full px-3 sm:px-4 mt-2.5 sm:mt-3.5 pb-6">
         <div class="grid grid-cols-2 gap-2.5 sm:gap-3.5">
 
             @foreach($menuLinks as $link)
@@ -251,95 +158,63 @@
 
 
         <!-- ========================================================================= -->
-        <!-- 4. OPERATING HOURS CARD (Ribbon Frame + Gold Clock + Floral Borders)      -->
+        <!-- 4. OPERATING HOURS CARD (Stadium Pill + 3D Gold Clock + Floral Ribbons)   -->
         <!-- ========================================================================= -->
-        <div class="mt-6 relative">
+        <div class="mt-8 mb-3 relative w-full">
             
-            <!-- Floating Badge: Crown + JAM OPERASIONAL -->
-            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 bg-gradient-to-r from-[#FF1A8C] via-[#E6107A] to-[#C2095F] text-white px-5 py-1 rounded-full shadow-md border border-[#F7E7B4]">
+            <!-- Floating Top Badge: Crown + JAM OPERASIONAL -->
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-gradient-to-r from-[#FF1A8C] via-[#E6107A] to-[#C2095F] text-white px-5 py-1.5 rounded-full shadow-md border border-[#F7E7B4]">
                 <span class="text-xs">👑</span>
-                <span class="font-extrabold text-[11px] sm:text-xs tracking-wider uppercase">
+                <span class="font-extrabold text-[11px] sm:text-xs tracking-wider uppercase drop-shadow-xs">
                     JAM OPERASIONAL
                 </span>
             </div>
 
-            <!-- Card Body with Floral Borders -->
-            <div class="bg-gradient-to-b from-[#FFF0F6] to-white rounded-3xl p-5 pt-8 border-2 border-[#E5C07B]/80 shadow-md relative overflow-hidden text-center">
+            <!-- Stadium Card Container with Golden Border and Floral Ribbon Graphic -->
+            <div class="relative w-full rounded-full border-2 border-[#E5C07B] shadow-lg overflow-hidden bg-[#FFF5F9]">
                 
-                <!-- Left Pink Floral Corner Illustration -->
-                <div class="absolute -top-3 -left-3 w-16 h-16 pointer-events-none opacity-60">
-                    <svg viewBox="0 0 100 100" fill="#E6107A">
-                        <circle cx="30" cy="30" r="18" fill="#FF80BF"/>
-                        <circle cx="55" cy="20" r="14" fill="#E6107A"/>
-                        <circle cx="20" cy="55" r="14" fill="#C2095F"/>
-                        <circle cx="35" cy="40" r="8" fill="#F7E7B4"/>
-                    </svg>
-                </div>
+                <!-- Background Banner with Lush Floral Ribbons on Both Sides -->
+                <div class="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none" 
+                     style="background-image: url('{{ asset('images/floral_ribbon_banner.jpg') }}');"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFF7FA]/90 to-transparent pointer-events-none"></div>
 
-                <!-- Right Pink Floral Corner Illustration -->
-                <div class="absolute -top-3 -right-3 w-16 h-16 pointer-events-none opacity-60">
-                    <svg viewBox="0 0 100 100" fill="#E6107A">
-                        <circle cx="70" cy="30" r="18" fill="#FF80BF"/>
-                        <circle cx="45" cy="20" r="14" fill="#E6107A"/>
-                        <circle cx="80" cy="55" r="14" fill="#C2095F"/>
-                        <circle cx="65" cy="40" r="8" fill="#F7E7B4"/>
-                    </svg>
-                </div>
-
-                <!-- Gold Clock + Hours Details -->
-                <div class="flex items-center justify-center gap-3 sm:gap-4 my-1">
+                <!-- Card Content -->
+                <div class="relative z-10 px-5 sm:px-8 py-4 pt-6 sm:pt-7 flex flex-col items-center justify-center">
                     
-                    <!-- 3D Gold Alarm Clock Graphic -->
-                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#FFF5D6] via-[#F3D27B] to-[#C9A24B] p-1 shadow-lg flex items-center justify-center flex-shrink-0">
-                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center border border-[#C9A24B]/50 shadow-inner">
-                            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-[#C9A24B]" viewBox="0 0 24 24" fill="none" stroke="#C9A24B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="13" r="8"/>
-                                <path d="M12 9v4l2.5 2"/>
-                                <path d="M5 3L2 6"/>
-                                <path d="M22 6l-3-3"/>
-                                <path d="M6 19l-2 2"/>
-                                <path d="M18 19l2 2"/>
-                            </svg>
+                    <!-- Middle Horizontal Row: 3D Gold Alarm Clock + Hours -->
+                    <div class="flex items-center justify-center gap-3 sm:gap-4 my-1 w-full max-w-sm mx-auto">
+                        
+                        <!-- 3D Vintage Gold Alarm Clock with Twin Bells -->
+                        <div class="w-13 h-13 sm:w-16 sm:h-16 flex-shrink-0 drop-shadow-md">
+                            <img src="{{ asset('images/gold_alarm_clock.jpg') }}" alt="Jam Operasional" class="w-full h-full object-contain rounded-full">
                         </div>
+
+                        <!-- Schedule: SENIN - MINGGU | 09.00 - 21.00 WIB -->
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="bg-[#FFE4EF] text-[#C2095F] font-extrabold text-xs sm:text-sm px-3.5 sm:px-4 py-1.5 rounded-full border border-pink-200/90 shadow-xs tracking-tight whitespace-nowrap">
+                                SENIN - MINGGU
+                            </div>
+
+                            <div class="h-8 w-[1.5px] bg-[#C2095F]/30 flex-shrink-0"></div>
+
+                            <div class="flex flex-col items-center justify-center leading-none text-[#C2095F] text-center">
+                                <span class="font-black text-base sm:text-xl tracking-tight">09.00 - 21.00</span>
+                                <span class="font-bold text-[10px] sm:text-xs text-[#C2095F]/85 tracking-widest mt-1">WIB</span>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- SENIN - MINGGU Pill & Hours -->
-                    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-                        <div class="bg-[#FFE4EF] text-[#C2095F] font-bold text-xs sm:text-sm px-4 py-1.5 rounded-full border border-pink-200 shadow-xs">
-                            SENIN - MINGGU
-                        </div>
-                        <div class="hidden sm:block h-6 w-[1.5px] bg-[#C9A24B]/50"></div>
-                        <div class="text-[#C2095F] font-extrabold text-sm sm:text-base tracking-wide">
-                            {{ $operatingStatus['hours_text'] ?? '09.00 - 21.00 WIB' }}
-                        </div>
+                    <!-- Bottom Elegant Script with Horizontal Divider Lines -->
+                    <div class="flex items-center justify-center gap-2 sm:gap-3 mt-2.5 w-full">
+                        <span class="h-[1px] w-8 sm:w-16 bg-[#C2095F]/30"></span>
+                        <span class="font-['Great_Vibes'] text-base sm:text-lg text-[#C2095F] tracking-wide whitespace-nowrap">
+                            Kami siap melayani kamu ♥
+                        </span>
+                        <span class="h-[1px] w-8 sm:w-16 bg-[#C2095F]/30"></span>
                     </div>
 
                 </div>
-
-                <!-- Live Status Indicator (Buka / Tutup) -->
-                <div class="inline-flex items-center gap-2 mt-2 px-3 py-1 rounded-full bg-white/90 border border-pink-100 text-[11px] font-bold shadow-xs">
-                    <span class="flex h-2.5 w-2.5 relative">
-                        @if($operatingStatus['is_open'] ?? false)
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                        @else
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gray-400"></span>
-                        @endif
-                    </span>
-                    <span class="{{ ($operatingStatus['is_open'] ?? false) ? 'text-emerald-700' : 'text-gray-500' }}">
-                        {{ $operatingStatus['label'] ?? 'Tutup' }} (WIB)
-                    </span>
-                </div>
-
-                <!-- Elegant Footer Script with Divider Lines -->
-                <div class="flex items-center justify-center gap-3 mt-4">
-                    <span class="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#E6107A]/40"></span>
-                    <span class="font-['Great_Vibes'] text-xl sm:text-2xl text-[#C2095F]">
-                        Kami siap melayani kamu ♥
-                    </span>
-                    <span class="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#E6107A]/40"></span>
-                </div>
-
             </div>
         </div>
 
