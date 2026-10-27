@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -6,6 +7,54 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-script: 'Great Vibes', cursive;
+
+    --color-brand-pink: #E6107A;
+    --color-brand-pink-dark: #C2095F;
+    --color-brand-pink-deep: #960647;
+    --color-brand-soft: #FFE4EF;
+    --color-brand-gold: #C9A24B;
+    --color-brand-gold-light: #F7E7B4;
+    --color-brand-gold-dark: #997525;
+    --color-brand-text: #3B1A2B;
+    --color-brand-muted: #8A6477;
+    --color-brand-bg: #FFF5F9;
+}
+
+/* Glassmorphism & Gold Effects */
+.gold-border {
+    border: 1px solid rgba(201, 162, 75, 0.45);
+    box-shadow: 0 4px 15px -2px rgba(230, 16, 122, 0.08), 0 0 0 1px rgba(255, 230, 240, 0.6) inset;
+}
+
+.gold-border:hover {
+    border-color: rgba(201, 162, 75, 0.85);
+    box-shadow: 0 8px 25px -4px rgba(230, 16, 122, 0.16), 0 0 0 1px rgba(201, 162, 75, 0.25) inset;
+}
+
+.gold-gradient-text {
+    background: linear-gradient(135deg, #F3D27B 0%, #C9A24B 50%, #9E7420 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pink-gradient-bg {
+    background: linear-gradient(135deg, #FF1493 0%, #E6107A 50%, #C2095F 100%);
+}
+
+.soft-pill-bg {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF7FA 100%);
+}
+
+/* Print CSS */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        color: black !important;
+    }
 }

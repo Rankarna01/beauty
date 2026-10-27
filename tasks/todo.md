@@ -1,38 +1,38 @@
 # Task List: Putri Beauty Care Implementation
 
 ## Phase 1: Foundation, Data Layer & Admin Core
-- [ ] Task 1.1: Setup Proyek, Dependensi & Konfigurasi Lingkungan
-- [ ] Task 1.2: Migrasi Basis Data, Relasi Model & Factory
-- [ ] Task 1.3: Seeder Data Awal & Default Brand Settings
-- [ ] Task 1.4: Core WhatsApp Link & Operating Hours Service Layer
-- [ ] Task 1.5: Filament Admin Panel Resources & Custom Settings Page
+- [x] Task 1.1: Setup Proyek, Dependensi & Konfigurasi Lingkungan
+- [x] Task 1.2: Migrasi Basis Data, Relasi Model & Factory
+- [x] Task 1.3: Seeder Data Awal & Default Brand Settings
+- [x] Task 1.4: Core WhatsApp Link & Operating Hours Service Layer
+- [x] Task 1.5: Filament Admin Panel Resources & Custom Settings Page
 
 ## Checkpoint: Foundation
-- [ ] Migrations run cleanly
-- [ ] Seeders populate initial admin & salon data
-- [ ] Unit tests for WhatsApp & Operating hours services pass
-- [ ] Filament login and resource screens accessible
+- [x] Migrations run cleanly
+- [x] Seeders populate initial admin & salon data
+- [x] Unit tests for WhatsApp & Operating hours services pass
+- [x] Filament login and resource screens accessible
 
 ## Phase 2: Public UI Foundation & Linktree Homepage
-- [ ] Task 2.1: Design Tokens, Typography & Base App Layout
-- [ ] Task 2.2: Komponen Beranda (Header Profil, Chip Layanan & Kartu Kontak)
-- [ ] Task 2.3: Menu Pill Cards Beranda & Indikator Jam Buka Live
+- [x] Task 2.1: Design Tokens, Typography & Base App Layout
+- [x] Task 2.2: Komponen Beranda (Header Profil, Chip Layanan & Kartu Kontak)
+- [x] Task 2.3: Menu Pill Cards Beranda & Indikator Jam Buka Live
 
 ## Checkpoint: Homepage
-- [ ] Mobile-first responsive layout verified
-- [ ] Live operating hours status badge toggles properly
-- [ ] Dynamic pill cards link to routes/WA correctly
+- [x] Mobile-first responsive layout verified
+- [x] Live operating hours status badge toggles properly
+- [x] Dynamic pill cards link to routes/WA correctly
 
 ## Phase 3: Interactive Features & Dynamic Catalog
-- [ ] Task 3.1: Livewire Catalog Component (Pencarian, Filter & Grid Kartu)
-- [ ] Task 3.2: Modal & Halaman Detail Katalog (Manfaat, Galeri & CTA WhatsApp)
-- [ ] Task 3.3: Halaman Daftar Harga Treatment & Cetak Responsif (`/harga`)
-- [ ] Task 3.4: Modul Promo Dinamis & Detail Promo (`/promo`, `/promo/{slug}`)
+- [x] Task 3.1: Livewire Catalog Component (Pencarian, Filter & Grid Kartu)
+- [x] Task 3.2: Modal & Halaman Detail Katalog (Manfaat, Galeri & CTA WhatsApp)
+- [x] Task 3.3: Halaman Daftar Harga Treatment & Cetak Responsif (`/harga`)
+- [x] Task 3.4: Modul Promo Dinamis & Detail Promo (`/promo`, `/promo/{slug}`)
 
 ## Checkpoint: Catalog & Promos
-- [ ] Real-time search and category filtering work smoothly without reload
-- [ ] Price list print preview formatted neatly
-- [ ] Expired promos automatically hidden
+- [x] Real-time search and category filtering work smoothly without reload
+- [x] Price list print preview formatted neatly
+- [x] Expired promos automatically hidden
 
 ## Phase 4: WhatsApp Booking Engine & Public Utility
 - [ ] Task 4.1: Form Booking Interaktif Livewire (`/booking`)

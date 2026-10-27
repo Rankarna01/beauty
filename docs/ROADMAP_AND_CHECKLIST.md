@@ -7,9 +7,9 @@
 
 ## 📌 Status Keseluruhan Proyek
 
-- [ ] **Fase 1: Fondasi Proyek, Basis Data & Admin Panel** *(0/5 Task)*
-- [ ] **Fase 2: Layout Mobile-First & Beranda Linktree Modern** *(0/3 Task)*
-- [ ] **Fase 3: Modul Katalog, Daftar Harga & Promo Dinamis** *(0/4 Task)*
+- [x] **Fase 1: Fondasi Proyek, Basis Data & Admin Panel** *(5/5 Task Selesai)*
+- [x] **Fase 2: Layout Mobile-First & Beranda Linktree Modern** *(3/3 Task Selesai)*
+- [x] **Fase 3: Modul Katalog, Daftar Harga & Promo Dinamis** *(4/4 Task Selesai)*
 - [ ] **Fase 4: Sistem Booking WhatsApp & Integrasi Lokasi** *(0/3 Task)*
 - [ ] **Fase 5: Analitik Klik, Optimasi WebP, SEO & Hardening** *(0/4 Task)*
 
@@ -18,29 +18,29 @@
 ## Checklist Detail per Fase
 
 ### 🏗️ Fase 1: Fondasi Proyek, Basis Data & Admin Panel Core
-- [ ] **Task 1.1**: Setup Laravel 12, Livewire 3, Filament 3/4, Tailwind CSS & dependensi
-- [ ] **Task 1.2**: Migrasi 10 tabel inti database, relasi model Eloquent, trait Sluggable & SoftDeletes
-- [ ] **Task 1.3**: Database Seeder komprehensif (User Admin, Outlet Banda Aceh, Jam Buka, Default Settings)
-- [ ] **Task 1.4**: Unit testing service `WhatsAppLink` (normalisasi nomor `628...` & template) dan `OperatingHoursService`
-- [ ] **Task 1.5**: Filament Resources (Kategori, Katalog, Promo, Lokasi, Menu Beranda) & Custom Settings Page
-- [ ] 🎯 **Checkpoint 1 Verifikasi**: Seluruh unit test green, panel admin `/admin` dapat mengelola seluruh entitas data.
+- [x] **Task 1.1**: Setup Laravel 12, Livewire 3, Filament 3/4, Tailwind CSS & dependensi
+- [x] **Task 1.2**: Migrasi 10 tabel inti database, relasi model Eloquent, trait Sluggable & SoftDeletes
+- [x] **Task 1.3**: Database Seeder komprehensif (User Admin, Outlet Banda Aceh, Jam Buka, Default Settings)
+- [x] **Task 1.4**: Unit testing service `WhatsAppLink` (normalisasi nomor `628...` & template) dan `OperatingHoursService`
+- [x] **Task 1.5**: Filament Resources (Kategori, Katalog, Promo, Lokasi, Menu Beranda) & Custom Settings Page
+- [x] 🎯 **Checkpoint 1 Verifikasi**: Seluruh unit test green, panel admin `/admin` dapat mengelola seluruh entitas data.
 
 ---
 
 ### 📱 Fase 2: Layout Mobile-First & Beranda Linktree Modern
-- [ ] **Task 2.1**: Implementasi Design Tokens (warna brand magenta `#E6107A`, soft pink, emas `#C9A24B`, font Playfair & Poppins) & layout mobile-first
-- [ ] **Task 2.2**: Header profil salon, nama brand script, chip layanan unggulan dinamis, dan kartu kontak cepat
-- [ ] **Task 2.3**: Komponen pill card menu beranda (reorderable), panah chevron, dan widget indikator jam buka live "Buka Sekarang / Tutup"
-- [ ] 🎯 **Checkpoint 2 Verifikasi**: Halaman `/` selesai 100% responsif mobile-first dan sinkron dengan pengaturan Filament.
+- [x] **Task 2.1**: Implementasi Design Tokens (warna brand magenta `#E6107A`, soft pink, emas `#C9A24B`, font Playfair & Poppins) & layout mobile-first
+- [x] **Task 2.2**: Header profil salon, nama brand script, chip layanan unggulan dinamis, dan kartu kontak cepat
+- [x] **Task 2.3**: Komponen pill card menu beranda (reorderable), panah chevron, dan widget indikator jam buka live "Buka Sekarang / Tutup"
+- [x] 🎯 **Checkpoint 2 Verifikasi**: Halaman `/` selesai 100% responsif mobile-first dan sinkron dengan pengaturan Filament.
 
 ---
 
 ### 💄 Fase 3: Modul Katalog, Daftar Harga & Promo Dinamis
-- [ ] **Task 3.1**: Livewire Catalog list (`/katalog`) dengan filter tab kategori, pencarian reaktif instan tanpa reload, dan kartu rasio 4:5
-- [ ] **Task 3.2**: Modal/halaman detail item katalog (`/katalog/{kategori}/{item}`) dengan galeri foto, benefits bullet list, dan CTA WhatsApp dinamis
-- [ ] **Task 3.3**: Halaman daftar harga treatment (`/harga`) dengan accordion per kategori, info update terakhir, dan fitur cetak ramah A4 (`@media print`)
-- [ ] **Task 3.4**: Modul promo dinamis (`/promo`, `/promo/{slug}`) dengan filter otomatis tanggal aktif, badge "Berakhir dalam X hari", dan sanitasi rich text
-- [ ] 🎯 **Checkpoint 3 Verifikasi**: Pengunjung dapat mencari treatment/skincare, mencetak daftar harga, dan melihat promo aktif.
+- [x] **Task 3.1**: Livewire Catalog list (`/katalog`) dengan filter tab kategori, pencarian reaktif instan tanpa reload, dan kartu rasio 4:5
+- [x] **Task 3.2**: Modal/halaman detail item katalog (`/katalog/{kategori}/{item}`) dengan galeri foto, benefits bullet list, dan CTA WhatsApp dinamis
+- [x] **Task 3.3**: Halaman daftar harga treatment (`/harga`) dengan accordion per kategori, info update terakhir, dan fitur cetak ramah A4 (`@media print`)
+- [x] **Task 3.4**: Modul promo dinamis (`/promo`, `/promo/{slug}`) dengan filter otomatis tanggal aktif, badge "Berakhir dalam X hari", dan sanitasi rich text
+- [x] 🎯 **Checkpoint 3 Verifikasi**: Pengunjung dapat mencari treatment/skincare, mencetak daftar harga, dan melihat promo aktif.
 
 ---
 
