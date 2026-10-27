@@ -35,14 +35,14 @@
 - [x] Expired promos automatically hidden
 
 ## Phase 4: WhatsApp Booking Engine & Public Utility
-- [ ] Task 4.1: Form Booking Interaktif Livewire (`/booking`)
-- [ ] Task 4.2: Halaman Lokasi Cabang & Embed Google Maps Lazy-Load (`/lokasi`)
-- [ ] Task 4.3: Route Redirect Konsultasi, Instagram & Floating WhatsApp Button
+- [x] Task 4.1: Form Booking Interaktif Livewire (`/booking`)
+- [x] Task 4.2: Halaman Lokasi Cabang & Embed Google Maps Lazy-Load (`/lokasi`)
+- [x] Task 4.3: Route Redirect Konsultasi, Instagram & Floating WhatsApp Button
 
 ## Checkpoint: Conversion Flow
-- [ ] Form booking produces pre-formatted WhatsApp link accurately
-- [ ] Redirects `/konsultasi` and `/instagram` functional
-- [ ] Google Maps lazy-loaded
+- [x] Form booking produces pre-formatted WhatsApp link accurately
+- [x] Redirects `/konsultasi` and `/instagram` functional
+- [x] Google Maps lazy-loaded
 
 ## Phase 5: Analytics, Polish, SEO & Launch Hardening
 - [ ] Task 5.1: Pencatatan Analitik Klik WhatsApp & Dashboard Widget

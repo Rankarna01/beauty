@@ -26,11 +26,8 @@ Route::get('/promo/{slug}', [PromoController::class, 'show'])->name('promo.show'
 Route::get('/konsultasi', [RedirectController::class, 'consultation'])->name('redirect.consultation');
 Route::get('/instagram', [RedirectController::class, 'instagram'])->name('redirect.instagram');
 
-// Fitur Booking & Lokasi (Fase 4)
-Route::get('/booking', function () {
-    return redirect()->route('home')->with('info', 'Form booking online akan segera hadir di Fase 4.');
-})->name('booking');
+use App\Http\Controllers\LocationController;
 
-Route::get('/lokasi', function () {
-    return redirect()->route('home')->with('info', 'Halaman lokasi cabang akan segera hadir di Fase 4.');
-})->name('locations');
+// Fitur Booking & Lokasi (Fase 4)
+Route::view('/booking', 'pages.booking')->name('booking');
+Route::get('/lokasi', [LocationController::class, 'index'])->name('locations');

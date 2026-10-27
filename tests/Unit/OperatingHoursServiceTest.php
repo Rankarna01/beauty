@@ -65,4 +65,52 @@ class OperatingHoursServiceTest extends TestCase
         $sunday = Carbon::parse('2026-10-25 12:00:00', 'Asia/Jakarta'); // 2026-10-25 is Sunday
         $this->assertFalse(OperatingHoursService::isOpenNow($location, $sunday));
     }
+
+    public function test_it_returns_formatted_today_hours_text(): void
+    {
+        $location = Location::create([
+            'name' => 'Putri Beauty Care',
+            'address' => 'Banda Aceh',
+            'is_main_branch' => true,
+            'is_active' => true,
+        ]);
+
+        OperatingHour::create([
+            'location_id' => $location->id,
+            'day_of_week' => 1, // Senin
+            'opens_at' => '09:00:00',
+            'closes_at' => '21:00:00',
+            'is_closed' => false,
+        ]);
+
+        $monday = Carbon::parse('2026-10-26 10:00:00', 'Asia/Jakarta');
+        $this->assertSame('09:00 - 21:00 WIB', OperatingHoursService::getTodayHoursText($location, $monday));
+        $this->assertSame('09:00 - 21:00 WIB', (new OperatingHoursService())->getTodayHoursText($location, $monday));
+    }
+
+    public function test_it_returns_status_badge(): void
+    {
+        $location = Location::create([
+            'name' => 'Putri Beauty Care',
+            'address' => 'Banda Aceh',
+            'is_main_branch' => true,
+            'is_active' => true,
+        ]);
+
+        OperatingHour::create([
+            'location_id' => $location->id,
+            'day_of_week' => 1, // Senin
+            'opens_at' => '09:00:00',
+            'closes_at' => '21:00:00',
+            'is_closed' => false,
+        ]);
+
+        $mondayOpen = Carbon::parse('2026-10-26 14:00:00', 'Asia/Jakarta');
+        $badge = OperatingHoursService::getStatusBadge($location, $mondayOpen);
+
+        $this->assertTrue($badge['is_open']);
+        $this->assertSame('Buka Sekarang', $badge['label']);
+        $this->assertSame('09:00 - 21:00 WIB', $badge['hours_text']);
+        $this->assertSame('Senin', $badge['day_name']);
+    }
 }

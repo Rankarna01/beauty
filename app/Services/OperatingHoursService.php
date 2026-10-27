@@ -54,6 +54,16 @@ class OperatingHoursService
     }
 
     /**
+     * Dapatkan teks jam buka hari ini.
+     */
+    public static function getTodayHoursText(?Location $location = null, ?Carbon $customTime = null): string
+    {
+        $schedule = self::getTodaySchedule($location, $customTime);
+
+        return $schedule ? $schedule->formatted_hours : '09.00 - 21.00 WIB';
+    }
+
+    /**
      * Dapatkan ringkasan badge status dan jam buka hari ini.
      */
     public static function getStatusBadge(?Location $location = null, ?Carbon $customTime = null): array
@@ -61,8 +71,7 @@ class OperatingHoursService
         $now = $customTime ?? Carbon::now('Asia/Jakarta');
         $isOpen = self::isOpenNow($location, $now);
         $schedule = self::getTodaySchedule($location, $now);
-
-        $hoursText = $schedule ? $schedule->formatted_hours : '09.00 - 21.00 WIB';
+        $hoursText = self::getTodayHoursText($location, $now);
 
         return [
             'is_open' => $isOpen,

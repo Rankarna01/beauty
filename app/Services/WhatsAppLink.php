@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\CatalogItem;
+
 class WhatsAppLink
 {
     /**
@@ -27,16 +29,49 @@ class WhatsAppLink
     }
 
     /**
+     * Dapatkan teks pesan hasil interpolasi template.
+     */
+    public static function getMessage(string $type, array $placeholders = []): string
+    {
+        $template = setting("whatsapp_templates.{$type}", self::getDefaultTemplate($type));
+
+        return trim(self::interpolate($template, $placeholders));
+    }
+
+    /**
      * Buat URL https://wa.me/... dengan interpolasi template dinamis.
      */
     public static function build(string $type, array $placeholders = [], ?string $customPhone = null): string
     {
         $phone = self::cleanPhoneNumber($customPhone);
-        $template = setting("whatsapp_templates.{$type}", self::getDefaultTemplate($type));
+        $message = self::getMessage($type, $placeholders);
 
-        $message = self::interpolate($template, $placeholders);
+        return 'https://wa.me/' . $phone . '?text=' . rawurlencode($message);
+    }
 
-        return 'https://wa.me/' . $phone . '?text=' . rawurlencode(trim($message));
+    /**
+     * Buat URL WhatsApp khusus item katalog (otomatis bedakan jasa vs produk).
+     */
+    public static function buildForItem(CatalogItem $item, array $extras = []): string
+    {
+        $url = route('catalog.show', [
+            'category' => $item->category->slug,
+            'item' => $item->slug,
+        ]);
+
+        $type = $item->type === 'product' ? 'product_order' : 'service_inquiry';
+
+        $defaults = [
+            'nama_produk' => $item->name,
+            'harga' => $item->formatted_price,
+            'durasi' => $item->duration_minutes ?? '-',
+            'url_item' => $url,
+            'jumlah' => $extras['jumlah'] ?? '1 pcs',
+            'nama' => $extras['nama'] ?? '-',
+            'alamat' => $extras['alamat'] ?? '-',
+        ];
+
+        return self::build($type, array_merge($defaults, $extras));
     }
 
     /**
@@ -62,10 +97,18 @@ class WhatsAppLink
     public static function getDefaultTemplate(string $type): string
     {
         return match ($type) {
-            'booking' => "Halo Putri Beauty Care 👋\nSaya ingin booking:\n\nNama     : {nama}\nLayanan  : {layanan}\nTanggal  : {tanggal}\nJam      : {jam}\nCatatan  : {catatan}\n\nMohon info ketersediaan jadwalnya, terima kasih 🙏",
-            'catalog_item' => "Halo Putri Beauty Care 👋\nSaya tertarik dengan {nama_produk} ({harga}).\nApakah slot / stok masih tersedia?\n{url_item}",
-            'consultation' => "Halo kak, saya ingin konsultasi tentang perawatan kecantikan di Putri Beauty Care 👋",
-            'promo_claim' => "Halo Putri Beauty Care 👋\nSaya ingin klaim promo: *{promo_title}*.\nMohon info syarat dan jadwal yang tersedia, terima kasih 🙏",
+            'booking' => "Halo Putri Beauty Care 👋\nSaya ingin booking jadwal perawatan:\n\nNama     : {nama}\nLayanan  : {layanan}\nTanggal  : {tanggal}\nJam      : {jam}\nCatatan  : {catatan}\n\nMohon info ketersediaan slot jadwalnya ya kak, terima kasih 🙏",
+
+            'service_inquiry' => "Halo Putri Beauty Care 👋\nSaya tertarik dengan treatment:\n*{nama_produk}*\nTarif: {harga}\nDurasi: {durasi} menit\n\nApakah ada slot jadwal kosong untuk perawatan ini?\n{url_item}\n\nTerima kasih 🙏",
+
+            'product_order' => "Halo Putri Beauty Care 👋\nSaya ingin pesan produk skincare:\n\nProduk   : {nama_produk}\nHarga    : {harga}\nJumlah   : {jumlah}\nNama     : {nama}\nAlamat   : {alamat}\n\nMohon info ketersediaan stok dan estimasi ongkir ke alamat saya ya kak, terima kasih 🙏\n{url_item}",
+
+            'catalog_item' => "Halo Putri Beauty Care 👋\nSaya tertarik dengan *{nama_produk}* ({harga}).\nApakah slot / stok masih tersedia?\n{url_item}\n\nTerima kasih 🙏",
+
+            'consultation' => "Halo kak, saya ingin konsultasi perawatan kulit & kecantikan di Putri Beauty Care Banda Aceh 👋",
+
+            'promo_claim' => "Halo Putri Beauty Care 👋\nSaya ingin klaim promo spesial: *{promo_title}*.\n\nMohon info syarat dan jadwal yang masih tersedia, terima kasih 🙏",
+
             default => "Halo Putri Beauty Care 👋",
         };
     }
