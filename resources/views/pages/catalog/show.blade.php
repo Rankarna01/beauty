@@ -6,27 +6,24 @@
     <!-- Top Navigation Header -->
     <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-[#FFE4EF] px-4 py-3 flex items-center justify-between shadow-xs">
         <a href="{{ route('catalog.category', $category->slug) }}" class="flex items-center gap-1.5 text-[#C2095F] hover:text-[#E6107A] font-semibold text-xs tracking-tight transition-colors">
-            <svg class="w-4 h-4 fill-none stroke-currentColor stroke-2" viewBox="0 0 24 24">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
+            <i class="fa-solid fa-arrow-left text-xs"></i>
             <span>{{ $category->name }}</span>
         </a>
 
         <div class="flex items-center gap-2">
-            <a href="{{ route('home') }}" class="text-[#8A6477] hover:text-[#C2095F] text-xs font-semibold">
-                Beranda
+            <a href="{{ route('home') }}" class="text-[#8A6477] hover:text-[#C2095F] text-xs font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-house text-xs"></i>
+                <span>Beranda</span>
             </a>
         </div>
     </div>
 
     <!-- Main Hero Image -->
-    <div class="relative w-full aspect-square sm:aspect-video bg-pink-100 overflow-hidden">
-        @php
-            $itemImg = $item->primary_image 
-                ? asset('storage/' . $item->primary_image)
-                : 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80';
-        @endphp
-        <img src="{{ $itemImg }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+    @php
+        $isNailShow = $category->slug === 'nail-art' || str_contains($item->slug, 'nail');
+    @endphp
+    <div class="relative w-full {{ $isNailShow ? 'aspect-[4/3] max-h-72' : 'aspect-square sm:aspect-video' }} bg-pink-100 overflow-hidden">
+        <img src="{{ $item->primary_image_url }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
 
         @if($item->badge)
             <div class="absolute top-4 right-4 bg-gradient-to-r from-[#FF1A8C] to-[#C2095F] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/40">
@@ -114,9 +111,7 @@
                target="_blank"
                rel="noopener noreferrer"
                class="w-full flex items-center justify-center gap-2 py-3 px-5 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#20bd5a] hover:to-[#0f7a6d] text-white rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.514 0-10 4.486-10 10 0 1.764.459 3.421 1.261 4.869l-1.341 4.903 5.02-1.316c1.397.763 2.99 1.199 4.685 1.199 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/>
-                </svg>
+                <i class="fa-brands fa-whatsapp text-lg"></i>
                 <span>{{ $btnText }}</span>
             </a>
         </div>

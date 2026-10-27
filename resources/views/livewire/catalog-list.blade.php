@@ -43,16 +43,18 @@
             @endif
         </div>
 
-        <!-- Category Filter Tabs -->
+        <!-- Category Filter Tabs with FontAwesome Icons -->
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2.5 pb-1">
             <button wire:click="selectCategory('')"
-                    class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ empty($categorySlug) ? 'bg-[#E6107A] text-white shadow-xs' : 'bg-white text-[#8A6477] border border-pink-200 hover:border-[#E6107A]' }}">
-                Semua Kategori
+                    class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 {{ empty($categorySlug) ? 'bg-[#E6107A] text-white shadow-xs' : 'bg-white text-[#8A6477] border border-pink-200 hover:border-[#E6107A]' }}">
+                <i class="fa-solid fa-layer-group text-[11px]"></i>
+                <span>Semua</span>
             </button>
             @foreach($categories as $category)
                 <button wire:click="selectCategory('{{ $category->slug }}')"
-                        class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ $categorySlug === $category->slug ? 'bg-[#E6107A] text-white shadow-xs' : 'bg-white text-[#8A6477] border border-pink-200 hover:border-[#E6107A]' }}">
-                    {{ $category->name }}
+                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 {{ $categorySlug === $category->slug ? 'bg-[#E6107A] text-white shadow-xs' : 'bg-white text-[#8A6477] border border-pink-200 hover:border-[#E6107A]' }}">
+                    <i class="{{ $category->icon ?: 'fa-solid fa-tag' }} text-[11px]"></i>
+                    <span>{{ $category->name }}</span>
                     <span class="text-[10px] opacity-80">({{ $category->active_items_count }})</span>
                 </button>
             @endforeach
@@ -64,11 +66,7 @@
         @if($items->isEmpty())
             <div class="w-full py-16 flex flex-col items-center justify-center text-center">
                 <div class="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-400 mb-3">
-                    <svg class="w-8 h-8 fill-none stroke-currentColor stroke-1.5" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="M21 21l-4.35-4.35"/>
-                        <path d="M8 11h6"/>
-                    </svg>
+                    <i class="fa-solid fa-magnifying-glass text-2xl"></i>
                 </div>
                 <h3 class="font-bold text-sm text-[#3B1A2B]">Tidak Ada Item Ditemukan</h3>
                 <p class="text-xs text-[#8A6477] mt-1 max-w-xs">
@@ -81,16 +79,14 @@
         @else
             <div class="grid grid-cols-2 gap-3 sm:gap-4">
                 @foreach($items as $item)
+                    @php
+                        $isNailArt = $item->category?->slug === 'nail-art' || str_contains($item->slug, 'nail');
+                    @endphp
                     <div class="bg-white rounded-2xl gold-border overflow-hidden flex flex-col shadow-xs hover:shadow-md transition-all duration-200 group">
                         
-                        <!-- Image Container (Aspect 4:5) -->
-                        <div class="relative w-full aspect-[4/5] bg-pink-50 overflow-hidden cursor-pointer" wire:click="openDetail({{ $item->id }})">
-                            @php
-                                $imgSrc = $item->primary_image 
-                                    ? asset('storage/' . $item->primary_image)
-                                    : 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80';
-                            @endphp
-                            <img src="{{ $imgSrc }}" 
+                        <!-- Image Container (Compact aspect-ratio for Nail Art, Aspect 4:5 for other services) -->
+                        <div class="relative w-full {{ $isNailArt ? 'aspect-[4/3] max-h-36' : 'aspect-[4/5]' }} bg-pink-50 overflow-hidden cursor-pointer" wire:click="openDetail({{ $item->id }})">
+                            <img src="{{ $item->primary_image_url }}" 
                                  alt="{{ $item->name }}"
                                  loading="lazy"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -102,17 +98,14 @@
                                 </div>
                             @elseif($item->is_featured)
                                 <div class="absolute top-2 right-2 z-10 bg-[#C9A24B] text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs">
-                                    ★ Unggulan
+                                    <i class="fa-solid fa-star text-[8px] mr-0.5"></i> Unggulan
                                 </div>
                             @endif
 
                             <!-- Duration Badge -->
-                            @if($item->duration_minutes)
+                            @if($item->duration_minutes && !$isNailArt)
                                 <div class="absolute top-2 left-2 z-10 bg-black/50 backdrop-blur-xs text-white text-[9px] font-medium px-1.5 py-0.5 rounded-md flex items-center gap-1">
-                                    <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polyline points="12 6 12 12 16 14"/>
-                                    </svg>
+                                    <i class="fa-regular fa-clock text-[9px]"></i>
                                     <span>{{ $item->duration_minutes }} mnt</span>
                                 </div>
                             @endif
@@ -127,14 +120,14 @@
                         <div class="p-2.5 sm:p-3 flex flex-col flex-1 justify-between">
                             <div>
                                 <span class="text-[9px] sm:text-[10px] font-medium text-[#8A6477] uppercase tracking-wider block mb-0.5">
-                                    {{ $item->category->name }}
+                                    {{ $item->category?->name }}
                                 </span>
                                 
                                 <h3 wire:click="openDetail({{ $item->id }})" class="font-bold text-xs sm:text-sm text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-2 leading-snug cursor-pointer">
                                     {{ $item->name }}
                                 </h3>
 
-                                @if($item->short_description)
+                                @if($item->short_description && !$isNailArt)
                                     <p class="text-[10px] sm:text-[11px] text-[#8A6477] line-clamp-2 mt-1 leading-tight">
                                         {{ $item->short_description }}
                                     </p>
@@ -154,7 +147,7 @@
                                     @endif
                                 </div>
 
-                                <!-- Action Button: WhatsApp Direct -->
+                                <!-- Action Button: WhatsApp Direct with FontAwesome -->
                                 @php
                                     $waLink = $this->getWhatsAppUrl($item);
                                     $ctaText = $item->type === 'service' ? 'Booking WA' : 'Pesan WA';
@@ -164,9 +157,7 @@
                                    rel="noopener noreferrer"
                                    wire:click="logWhatsAppClick({{ $item->id }})"
                                    class="mt-2 w-full flex items-center justify-center gap-1.5 py-1.5 px-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#20bd5a] hover:to-[#0f7a6d] text-white rounded-full text-[11px] font-bold shadow-xs hover:shadow transition-all group-hover:scale-[1.02]">
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.514 0-10 4.486-10 10 0 1.764.459 3.421 1.261 4.869l-1.341 4.903 5.02-1.316c1.397.763 2.99 1.199 4.685 1.199 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/>
-                                    </svg>
+                                    <i class="fa-brands fa-whatsapp text-xs"></i>
                                     <span>{{ $ctaText }}</span>
                                 </a>
                             </div>
@@ -190,15 +181,10 @@
                 
                 <!-- Modal Header Image -->
                 <div class="relative w-full aspect-video bg-pink-100">
-                    @php
-                        $modalImg = $selectedItem->primary_image 
-                            ? asset('storage/' . $selectedItem->primary_image)
-                            : 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80';
-                    @endphp
-                    <img src="{{ $modalImg }}" alt="{{ $selectedItem->name }}" class="w-full h-full object-cover">
+                    <img src="{{ $selectedItem->primary_image_url }}" alt="{{ $selectedItem->name }}" class="w-full h-full object-cover">
                     
-                    <button wire:click="closeDetail" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors">
-                        ✕
+                    <button wire:click="closeDetail" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark text-sm"></i>
                     </button>
 
                     @if($selectedItem->badge)
@@ -277,9 +263,7 @@
                        rel="noopener noreferrer"
                        wire:click="logWhatsAppClick({{ $selectedItem->id }})"
                        class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full text-xs font-bold shadow-md transition-all">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.514 0-10 4.486-10 10 0 1.764.459 3.421 1.261 4.869l-1.341 4.903 5.02-1.316c1.397.763 2.99 1.199 4.685 1.199 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/>
-                        </svg>
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
                         <span>{{ $modalCtaText }}</span>
                     </a>
                 </div>

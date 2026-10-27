@@ -4,12 +4,12 @@
 <div class="relative w-full flex flex-col bg-[#FFF5F9] min-h-screen">
 
     <!-- ========================================================================= -->
-    <!-- 1. HERO BANNER (Official Graphic Poster with Interactive Hotspots)       -->
+    <!-- 1. HERO BANNER (Crisp Ultra-HD Banner + Dynamic Interactive Capsule Pill) -->
     <!-- ========================================================================= -->
     <header class="relative w-full overflow-hidden shadow-md select-none bg-[#FFF5F9]" style="aspect-ratio: 436 / 220;">
         
-        <!-- High-Definition Clean Graphic Banner Matching Reference Poster -->
-        <img src="{{ asset('images/putri_header_banner.png') }}" 
+        <!-- High-Definition Clean Graphic Banner (Clean Background without static pill) -->
+        <img src="{{ asset('images/putri_header_banner_crisp_clean.png') }}" 
              alt="{{ $brandName }} – {{ $tagline }}" 
              class="w-full h-full object-cover block select-none pointer-events-none"
              draggable="false">
@@ -24,28 +24,63 @@
             <p>Lokasi: {{ $location?->name ?? 'Head Japanese Spa' }} - {{ $location?->address ?? 'Jl. Sultan Iskandar Muda, Banda Aceh' }}</p>
         </div>
 
-        <!-- Interactive Clickable Hotspots overlaying the Capsule Pill -->
-        <!-- 1. WhatsApp Button Hotspot -->
-        <a href="https://wa.me/{{ $cleanPhone }}?text={{ rawurlencode('Halo Putri Beauty Care, saya ingin bertanya seputar layanan salon & skincare.') }}" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           aria-label="Chat WhatsApp Putri Beauty Care {{ $phoneMain }}"
-           title="WhatsApp: {{ $phoneMain }}"
-           class="absolute z-20 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer active:scale-95 transition-transform"
-           style="left: 12%; top: 76%; width: 29%; height: 16%;">
-            <span class="sr-only">Hubungi WhatsApp {{ $phoneMain }}</span>
-        </a>
+        <!-- Dynamic Real HTML Button Capsule (WhatsApp & Location) - Compact & Sejajar -->
+        <div class="absolute z-20" style="left: 50%; transform: translateX(-50%); bottom: 2%; width: 86%; max-width: 360px;">
+            <div class="w-full bg-white rounded-full py-1 px-2.5 sm:py-1.5 sm:px-3.5 flex items-center justify-between gap-1.5 sm:gap-2"
+                 style="border: none !important; outline: none !important; box-shadow: 0 3px 14px rgba(220, 20, 110, 0.15); -webkit-font-smoothing: antialiased;">
+                
+                <!-- 1. Dynamic WhatsApp Button -->
+                <a href="https://wa.me/{{ $cleanPhone }}?text={{ rawurlencode('Halo Putri Beauty Care, saya ingin bertanya seputar layanan salon & skincare.') }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Chat WhatsApp Putri Beauty Care {{ $phoneMain }}"
+                   title="WhatsApp: {{ $phoneMain }}"
+                   class="flex items-center gap-1 sm:gap-1.5 rounded-full hover:opacity-90 active:scale-95 transition-all group flex-shrink-0"
+                   style="border: none !important; outline: none !important;">
+                    
+                    <!-- Solid Green WA Circular Badge using FontAwesome (Compact & Crisp) -->
+                    <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform"
+                         style="border: none !important; outline: none !important; box-shadow: 0 1.5px 4px rgba(37, 211, 102, 0.3);">
+                        <i class="fa-brands fa-whatsapp text-white text-[11px] sm:text-[13px] leading-none"></i>
+                    </div>
 
-        <!-- 2. Location Button Hotspot -->
-        <a href="{{ $location?->maps_url ?? 'https://maps.google.com/?q=Putri+Beauty+Care+Banda+Aceh' }}" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           aria-label="Petunjuk Arah Google Maps {{ $location?->name ?? 'Head Japanese Spa' }}"
-           title="Petunjuk Arah: {{ $location?->name ?? 'Head Japanese Spa' }}"
-           class="absolute z-20 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer active:scale-95 transition-transform"
-           style="left: 42%; top: 76%; width: 34%; height: 16%;">
-            <span class="sr-only">Lokasi {{ $location?->name ?? 'Head Japanese Spa' }}</span>
-        </a>
+                    <!-- Bold Hot Pink Phone Number -->
+                    <span class="font-extrabold text-[10px] sm:text-[12px] text-[#E6107A] tracking-tight leading-none whitespace-nowrap">
+                        {{ preg_replace('/^62/', '0', $phoneMain) }}
+                    </span>
+                </a>
+
+                <!-- Vertical Divider Line -->
+                <div class="h-3.5 sm:h-4.5 w-[1px] bg-[#E6107A]/25 flex-shrink-0"></div>
+
+                <!-- 2. Dynamic Location Button -->
+                <a href="{{ $location?->maps_url ?? 'https://maps.google.com/?q=Putri+Beauty+Care+Banda+Aceh' }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Petunjuk Arah Google Maps {{ $location?->name ?? 'Head Japanese Spa' }}"
+                   title="Buka Maps: {{ $location?->name ?? 'Head Japanese Spa' }}"
+                   class="flex items-center gap-1 sm:gap-1.5 rounded-full hover:opacity-90 active:scale-95 transition-all group min-w-0 flex-1"
+                   style="border: none !important; outline: none !important;">
+                    
+                    <!-- Magenta Gradient Pin Circle with FontAwesome Location Icon (Compact & Crisp) -->
+                    <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-[#FF1A8C] to-[#C2095F] text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform"
+                         style="border: none !important; outline: none !important; box-shadow: 0 1.5px 4px rgba(230, 16, 122, 0.3);">
+                        <i class="fa-solid fa-location-dot text-white text-[9.5px] sm:text-[11px] leading-none"></i>
+                    </div>
+
+                    <!-- Location Dynamic Typography (Sejajar, Rapi & Tidak Menumpuk) -->
+                    <div class="flex flex-col text-left leading-none min-w-0 justify-center">
+                        <span class="font-bold text-[8px] sm:text-[9.5px] text-[#3B1A2B] truncate block">
+                            {{ $location?->name ?? 'Head Japanese Spa' }}
+                        </span>
+                        <span class="text-[6.8px] sm:text-[8px] text-[#8A6477] truncate block mt-0.5">
+                            {{ $location?->address ?? 'Jl. Sultan Iskandar Muda, Banda Aceh' }}
+                        </span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
 
     </header>
 
@@ -222,73 +257,129 @@
 
 
     <!-- ========================================================================= -->
-    <!-- 5. FOOTER SECTION (Curved Magenta Wave + 3 Badges + Follow For More)      -->
+    <!-- 5. FOOTER SECTION (Curved Magenta Wave + Gold Ribbon + Badges)            -->
     <!-- ========================================================================= -->
-    <footer class="w-full bg-gradient-to-r from-[#E6107A] via-[#C2095F] to-[#A0074E] text-white pt-5 pb-6 px-4 relative overflow-hidden mt-auto rounded-t-3xl shadow-inner">
+    <div class="w-full mt-auto flex flex-col" style="background-color: #E6007A !important;">
         
-        <!-- Curved Gold Accent Ribbon Line -->
-        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#FDF3CF] via-[#C9A24B] to-[#FDF3CF]"></div>
-
-        <div class="flex items-center justify-between gap-2 max-w-lg mx-auto">
-            
-            <!-- Left: Crown + Your Beauty Our Care -->
-            <div class="flex flex-col items-start leading-none">
-                <span class="text-xs text-[#F7E7B4]">👑</span>
-                <span class="font-['Great_Vibes'] text-xl sm:text-2xl text-white tracking-wide mt-0.5">
-                    {{ $slogan }} ♡
-                </span>
-            </div>
-
-            <!-- Center: 3 Circular Badges (Salon, Skincare, Aesthetic) -->
-            <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Liquid Metallic Gold Ribbon Wave Transition -->
+        <div class="w-full overflow-hidden leading-none -mb-[1px]" style="background-color: #FFF5F9 !important;">
+            <svg class="w-full h-8 sm:h-11 block" viewBox="0 0 1000 50" preserveAspectRatio="none" fill="none">
+                <defs>
+                    <linearGradient id="footerGoldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#E5C578"/>
+                        <stop offset="20%" stop-color="#FFF2C6"/>
+                        <stop offset="45%" stop-color="#C9A24B"/>
+                        <stop offset="70%" stop-color="#FDF3CF"/>
+                        <stop offset="85%" stop-color="#D4AF37"/>
+                        <stop offset="100%" stop-color="#9E7420"/>
+                    </linearGradient>
+                    <linearGradient id="footerGlintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#FFF5D6" stop-opacity="0.3"/>
+                        <stop offset="30%" stop-color="#FFFDF5" stop-opacity="0.9"/>
+                        <stop offset="70%" stop-color="#FFF2C6" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="#FFFDF5" stop-opacity="0.8"/>
+                    </linearGradient>
+                </defs>
+                <!-- Magenta Body Fill under the wave -->
+                <path d="M0,28 C160,38 320,18 500,22 C680,26 840,40 1000,16 L1000,50 L0,50 Z" fill="#E6007A"/>
                 
-                <!-- Salon -->
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/70 bg-white/15 flex items-center justify-center shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2a5 5 0 0 1 5 5v1a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"/>
-                            <path d="M4 22v-2a8 8 0 0 1 16 0v2"/>
-                        </svg>
-                    </div>
-                    <span class="text-[9px] font-medium tracking-tight text-white/95">Salon</span>
-                </div>
-
-                <!-- Skincare -->
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/70 bg-white/15 flex items-center justify-center shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                        </svg>
-                    </div>
-                    <span class="text-[9px] font-medium tracking-tight text-white/95">Skincare</span>
-                </div>
-
-                <!-- Aesthetic -->
-                <div class="flex flex-col items-center gap-0.5">
-                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/70 bg-white/15 flex items-center justify-center shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2l2.4 5.2L20 8.5l-4 4 1 5.5-5-3-5 3 1-5.5-4-4 5.6-1.3z"/>
-                        </svg>
-                    </div>
-                    <span class="text-[9px] font-medium tracking-tight text-white/95">Aesthetic</span>
-                </div>
-
-            </div>
-
-            <!-- Right: Follow for more ♡ -->
-            <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" class="flex flex-col items-end leading-none hover:opacity-85 transition-opacity">
-                <span class="font-['Great_Vibes'] text-xl sm:text-2xl text-white tracking-wide">
-                    Follow for more ♡
-                </span>
-                <span class="text-[9px] text-white/80 font-medium">
-                    {{ '@' . $instagramUsername }}
-                </span>
-            </a>
-
+                <!-- Main Metallic Gold Ribbon Contour -->
+                <path d="M0,28 C160,38 320,18 500,22 C680,26 840,40 1000,16" 
+                      stroke="url(#footerGoldGrad)" 
+                      stroke-width="4.5" 
+                      stroke-linecap="round"/>
+                
+                <!-- Secondary Glint Ribbon Line -->
+                <path d="M0,24 C160,34 320,14 500,18 C680,22 840,36 1000,12" 
+                      stroke="url(#footerGlintGrad)" 
+                      stroke-width="1.5" 
+                      stroke-linecap="round"/>
+            </svg>
         </div>
 
-    </footer>
+        <!-- Magenta Footer Body matching media_1793115200274.png (Guaranteed Solid Magenta) -->
+        <footer class="w-full text-white pt-1 pb-10 sm:pb-8 px-3 sm:px-6 relative overflow-hidden"
+                style="background-color: #E6007A !important; background: linear-gradient(180deg, #E6007A 0%, #D4006E 50%, #C2095F 100%) !important;">
+            <div class="flex items-center justify-between gap-1.5 sm:gap-4 max-w-lg mx-auto">
+                
+                <!-- Left: Gold Crown + Your Beauty, Our Care ♡ -->
+                <div class="flex flex-col items-start leading-none flex-shrink-0">
+                    <!-- Gold Crown Icon -->
+                    <svg class="w-5 h-4 sm:w-6 sm:h-5 text-[#F5D061] drop-shadow-xs -rotate-6 mb-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+                    </svg>
+                    <!-- Cursive Script Slogan -->
+                    <div class="font-['Great_Vibes'] text-[18px] sm:text-[23px] text-white leading-[1.08] tracking-wide">
+                        <div>Your Beauty,</div>
+                        <div>Our Care <span class="text-white text-base sm:text-lg">♡</span></div>
+                    </div>
+                </div>
+
+                <!-- Center: 3 Circular Badges (Salon, Skincare, Aesthetic) -->
+                <div class="flex items-center justify-center gap-2 sm:gap-3.5 flex-shrink-0">
+                    
+                    <!-- 1. Salon Badge -->
+                    <a href="{{ url('/katalog') }}" class="flex flex-col items-center group transition-transform hover:scale-105">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-[1.5px] border-white/90 bg-white/15 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
+                            <!-- Woman with Hijab Silhouette Icon -->
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3C8 3 6.5 6.5 6.5 10C6.5 14 8 16.5 9 18.5C10 20.5 11 21 12 21C13 21 14 20.5 15 18.5C16 16.5 17.5 14 17.5 10C17.5 6.5 16 3 12 3Z"/>
+                                <path d="M8.5 7.5C10 6.5 14 6.5 15.5 7.5"/>
+                                <path d="M11 9.5C12.5 10 13 11 12.8 12.5C12.5 13.5 11.8 14 11 14.5"/>
+                                <path d="M9 16.5C10.5 17.8 13.5 17.8 15 16.5"/>
+                            </svg>
+                        </div>
+                        <span class="text-[9.5px] sm:text-[11px] font-normal tracking-wide text-white mt-1">Salon</span>
+                    </a>
+
+                    <!-- 2. Skincare Badge -->
+                    <a href="{{ url('/katalog') }}" class="flex flex-col items-center group transition-transform hover:scale-105">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-[1.5px] border-white/90 bg-white/15 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
+                            <!-- Botanical Skincare Leaves Icon -->
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 17C6.5 16.5 5 13 5.5 9.5C8.5 9 11.5 11 12 14.5"/>
+                                <path d="M6 9.5C8.5 12 11 14.5 12 17"/>
+                                <path d="M12 17C13 12.5 16 7.5 20 6.5C20.5 10.5 18 15 12 17Z"/>
+                                <path d="M13.5 14.5C16 11.5 18 9.5 20 6.5"/>
+                                <path d="M12 17V20"/>
+                            </svg>
+                        </div>
+                        <span class="text-[9.5px] sm:text-[11px] font-normal tracking-wide text-white mt-1">Skincare</span>
+                    </a>
+
+                    <!-- 3. Aesthetic Badge -->
+                    <a href="{{ url('/katalog') }}" class="flex flex-col items-center group transition-transform hover:scale-105">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-[1.5px] border-white/90 bg-white/15 flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.15)]">
+                            <!-- Sparkle Stars Icon -->
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2C14 5.5 16.5 8 20 8C16.5 8 14 10.5 14 14C14 10.5 11.5 8 8 8C11.5 8 14 5.5 14 2Z"/>
+                                <path d="M7 13C7 15 8.5 16.5 10.5 16.5C8.5 16.5 7 18 7 20C7 18 5.5 16.5 3.5 16.5C5.5 16.5 7 15 7 13Z"/>
+                            </svg>
+                        </div>
+                        <span class="text-[9.5px] sm:text-[11px] font-normal tracking-wide text-white mt-1">Aesthetic</span>
+                    </a>
+
+                </div>
+
+                <!-- Right: Follow for more ♡ + Brush Underline Accent -->
+                <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" class="flex flex-col items-end leading-none hover:opacity-90 transition-opacity group flex-shrink-0">
+                    <div class="font-['Great_Vibes'] text-[18px] sm:text-[23px] text-white tracking-wide text-right leading-[1.08]">
+                        <div>Follow</div>
+                        <div class="flex items-center gap-1 justify-end">
+                            <span>for more</span>
+                            <span class="text-white text-base sm:text-lg">♡</span>
+                        </div>
+                    </div>
+                    <!-- Curved Brush Underline Accent -->
+                    <svg class="w-13 sm:w-16 h-2 text-white mt-0.5 group-hover:scale-105 transition-transform" viewBox="0 0 60 8" fill="none">
+                        <path d="M2 3C20 7 42 6 58 2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+
+            </div>
+        </footer>
+
+    </div>
 
 </div>
 @endsection

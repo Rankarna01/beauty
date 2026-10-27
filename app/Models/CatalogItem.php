@@ -76,7 +76,9 @@ class CatalogItem extends Model
     {
         return match ($this->price_type) {
             'contact_us' => 'Hubungi Kami',
-            'starting_from' => 'Mulai ' . format_rupiah($this->price),
+            'starting_from' => $this->price_max
+                ? format_rupiah($this->price) . ' - ' . format_rupiah($this->price_max)
+                : 'Mulai ' . format_rupiah($this->price),
             default => $this->price_max
                 ? format_rupiah($this->price) . ' - ' . format_rupiah($this->price_max)
                 : format_rupiah($this->price),
@@ -86,6 +88,26 @@ class CatalogItem extends Model
     public function getPrimaryImageAttribute(): ?string
     {
         return $this->images->first()?->image_path;
+    }
+
+    public function getPrimaryImageUrlAttribute(): string
+    {
+        $path = $this->images->first()?->image_path;
+        if (! $path) {
+            return ($this->category?->slug === 'nail-art' || str_contains($this->slug, 'nail'))
+                ? asset('images/nail_art_default.jpg')
+                : 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80';
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'images/')) {
+            return asset($path);
+        }
+
+        return asset('storage/' . $path);
     }
 
     public function scopeActive(Builder $query): Builder

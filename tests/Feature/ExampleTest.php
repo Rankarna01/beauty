@@ -22,5 +22,15 @@ class ExampleTest extends TestCase
         $response->assertSee('Percaya Diri');
         $response->assertSee('081362673728');
         $response->assertSee('Facial Treatment');
+        $response->assertSee('fa-brands fa-whatsapp', false);
+        $response->assertSee('fa-solid fa-location-dot', false);
+        $response->assertSee('footerGoldGrad', false);
+        $response->assertSee('Your Beauty,');
+        $response->assertSee('Our Care');
+        $response->assertSee('Salon');
+        $response->assertSee('Skincare');
+        $response->assertSee('Aesthetic');
+        $response->assertSee('Follow');
+        $response->assertSee('for more');
     }
 }
