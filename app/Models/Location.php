@@ -37,6 +37,32 @@ class Location extends Model
         ];
     }
 
+    public static function extractEmbedUrl(?string $value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        $trimmed = trim($value);
+
+        // If an <iframe> tag is provided, extract the src attribute
+        if (preg_match('/src=["\']([^"\']+)["\']/i', $trimmed, $matches)) {
+            return $matches[1];
+        }
+
+        return $trimmed;
+    }
+
+    public function setMapsEmbedUrlAttribute(?string $value): void
+    {
+        $this->attributes['maps_embed_url'] = static::extractEmbedUrl($value);
+    }
+
+    public function getCleanEmbedUrlAttribute(): ?string
+    {
+        return static::extractEmbedUrl($this->maps_embed_url);
+    }
+
     public function operatingHours(): HasMany
     {
         return $this->hasMany(OperatingHour::class)->orderBy('day_of_week');

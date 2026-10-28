@@ -998,63 +998,8 @@ class CatalogItemSeeder extends Seeder
         }
 
         // =========================================================================
-        // PROMOSI RESMI SESUAI POSTER KATALOG
+        // PROMOSI RESMI SESUAI BROSUR & FLYER TERBARU
         // =========================================================================
-        
-        // 1. Promo Tambah 1 Basic Treatment Jadi Rp 150.000
-        Promo::updateOrCreate(
-            ['slug' => 'promo-tambah-1-basic-treatment'],
-            [
-                'title' => 'Promo Basic Treatment: Tambah 1 Treatment Jadi Hanya Rp 150.000!',
-                'summary' => 'Pilih 2 treatment Basic favoritmu (Cleopatra, Snow White, Anti Aging, Acne, Detox) hemat Rp 50.000.',
-                'content' => '<p>Dapatkan penawaran super hemat khusus <strong>Basic Treatment</strong> di Putri Beauty Care! Cukup tambah 1 treatment, kamu bisa menikmati 2 perawatan wajah sekaligus hanya dengan <strong>Rp 150.000</strong> (harga normal Rp 200.000).</p><h3>Pilihan Treatment:</h3><ul><li>Facial Cleopatra Black Matic</li><li>Facial Snow White Glow</li><li>Facial Anti Aging</li><li>Facial Acne</li><li>Facial Detox</li></ul><p><em>*Berlaku untuk reservasi via WhatsApp dan langsung di salon.</em></p>',
-                'starts_at' => now()->startOfMonth(),
-                'ends_at' => now()->endOfMonth()->addDays(30),
-                'is_active' => true,
-                'sort_order' => 1,
-            ]
-        );
-
-        // 2. Promo Tambah 1 Premiere Treatment Jadi Rp 200.000 + Free Microdermabrasi
-        Promo::updateOrCreate(
-            ['slug' => 'promo-tambah-1-premiere-free-micro'],
-            [
-                'title' => 'Promo Premiere Treatment: Tambah 1 Jadi Rp 200.000 + FREE Microdermabrasi!',
-                'summary' => 'Treatment Premiere (Ice, Face Lifting, Hydra Peel, Galvanic, Shovel Knife) hemat + GRATIS Microdermabrasi.',
-                'content' => '<p>Nikmati kemewahan <strong>Premiere Treatment</strong> dengan promo spektakuler! Tambah 1 treatment jadi hanya <strong>Rp 200.000</strong> plus <strong>FREE Microdermabrasi</strong> untuk pengangkatan sel kulit mati maksimal.</p><h3>Pilihan Premiere Treatment:</h3><ul><li>Facial Ice Treatment (Sensitif & Hidrasi)</li><li>Facial Face Lifting (Sirkulasi Darah & V-Shape)</li><li>Facial Hydra Peel Silk (Pori Bersih & Glowing)</li><li>Facial Galvanic (Kencang & Halus)</li><li>Facial Shovel Knife (Komedo Tuntas)</li></ul><p><strong>GRATIS:</strong> 1x Microdermabrasi Treatment</p>',
-                'starts_at' => now()->startOfMonth(),
-                'ends_at' => now()->endOfMonth()->addDays(30),
-                'is_active' => true,
-                'sort_order' => 2,
-            ]
-        );
-
-        // 3. Promo Nail Art + Extension Disc 10K
-        Promo::updateOrCreate(
-            ['slug' => 'promo-nail-art-extension'],
-            [
-                'title' => 'Promo Nail Art + Extension (Potongan Langsung Rp 10.000)',
-                'summary' => 'Dapatkan potongan langsung Rp 10.000 untuk setiap perawatan Nail Art + Extension cantik pilihanmu!',
-                'content' => '<p>Ingin kuku lentik dan aesthetic tahan lama? Klaim potongan harga spesial Rp 10.000 khusus treatment <strong>Nail Art + Extension</strong> di Putri Beauty Care Banda Aceh.</p><h3>Ketentuan:</h3><ul><li>Berlaku untuk semua motif nail art custom.</li><li>Berlaku untuk reservasi WhatsApp dan langsung di outlet.</li></ul>',
-                'starts_at' => now()->startOfMonth(),
-                'ends_at' => now()->endOfMonth()->addDays(30),
-                'is_active' => true,
-                'sort_order' => 3,
-            ]
-        );
-
-        // 4. Promo Glowing Berdua
-        Promo::updateOrCreate(
-            ['slug' => 'promo-glowing-oktober'],
-            [
-                'title' => 'Promo Spesial Glowing Berdua (Diskon 25%)',
-                'summary' => 'Treatment Facial Glow + Japanese Head Spa hemat hingga Rp 100.000 selama bulan ini.',
-                'content' => '<p>Nikmati momen me-time sempurna bersama sahabat atau keluarga di <strong>Putri Beauty Care Banda Aceh</strong>! Paket bundling facial glowing dan Japanese head spa kini hadir dengan harga spesial.</p><h3>Syarat & Ketentuan:</h3><ul><li>Berlaku untuk reservasi jadwal via WhatsApp.</li><li>Promo berlaku hingga akhir bulan.</li><li>Tidak dapat digabung dengan promo voucher lain.</li></ul>',
-                'starts_at' => now()->startOfMonth(),
-                'ends_at' => now()->endOfMonth()->addDays(30),
-                'is_active' => true,
-                'sort_order' => 4,
-            ]
-        );
+        $this->call(PromoSeeder::class);
     }
 }

@@ -17,26 +17,33 @@
         </a>
     </div>
 
-    <!-- Promo Banner Image -->
-    <div class="relative w-full aspect-video bg-pink-100 overflow-hidden">
-        @php
-            $bannerImg = $promo->banner_path 
-                ? asset('storage/' . $promo->banner_path)
-                : 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80';
-        @endphp
-        <img src="{{ $bannerImg }}" alt="{{ $promo->title }}" class="w-full h-full object-cover">
-
-        @if($isExpired)
-            <div class="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center">
-                <span class="bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md">
-                    Promo Telah Berakhir
+    <!-- Promo Status Card (No Photos, Clean Text & Badges) -->
+    <div class="px-5 pt-4">
+        <div class="w-full bg-white border border-[#E5C578] rounded-3xl p-4 sm:p-5 flex items-center justify-between gap-3 shadow-xs">
+            <div class="flex items-center gap-2">
+                <span class="w-9 h-9 rounded-full bg-pink-100 text-[#C2095F] flex items-center justify-center font-bold text-sm">
+                    👑
                 </span>
+                <div class="flex flex-col">
+                    <span class="text-[10px] text-[#8A6477] font-semibold uppercase tracking-wider">
+                        Periode: {{ $promo->starts_at->isoFormat('D MMMM') }} - {{ $promo->ends_at->isoFormat('D MMMM Y') }}
+                    </span>
+                    <span class="text-xs font-bold text-[#3B1A2B]">
+                        {{ $isExpired ? 'Promo Telah Berakhir' : 'Promo Aktif Bulan Ini' }}
+                    </span>
+                </div>
             </div>
-        @else
-            <div class="absolute top-4 right-4 bg-gradient-to-r from-[#FF1A8C] to-[#C2095F] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/40">
-                ⏳ Berakhir dalam {{ $promo->days_remaining }} hari
-            </div>
-        @endif
+
+            @if($isExpired)
+                <span class="bg-red-100 text-red-600 text-[10px] font-bold px-3 py-1 rounded-full border border-red-200">
+                    Expired
+                </span>
+            @else
+                <span class="bg-gradient-to-r from-[#FF1A8C] to-[#C2095F] text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-xs border border-white/40">
+                    ⏳ Sisa {{ $promo->days_remaining }} hari
+                </span>
+            @endif
+        </div>
     </div>
 
     <!-- Content Details -->
@@ -80,9 +87,7 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    class="w-full flex items-center justify-center gap-2 py-3 px-5 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#20bd5a] hover:to-[#0f7a6d] text-white rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
-                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.514 0-10 4.486-10 10 0 1.764.459 3.421 1.261 4.869l-1.341 4.903 5.02-1.316c1.397.763 2.99 1.199 4.685 1.199 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/>
-                    </svg>
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
                     <span>Klaim Promo Ini via WhatsApp</span>
                 </a>
             </div>

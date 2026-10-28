@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             MenuLinkSeeder::class,
             CatalogItemSeeder::class,
+            PromoSeeder::class,
         ]);
     }
 }

@@ -77,7 +77,9 @@ class LocationResource extends Resource
                                 Forms\Components\Textarea::make('maps_embed_url')
                                     ->label('URL Google Maps Embed (iframe src)')
                                     ->rows(3)
-                                    ->placeholder('https://www.google.com/maps/embed?...'),
+                                    ->placeholder('https://www.google.com/maps/embed?... atau kode <iframe src="..."></iframe>')
+                                    ->helperText('Bisa masukkan kode <iframe> lengkap dari Google Maps ataupun link embed-nya langsung, sistem otomatis mengekstrak tautan peta.')
+                                    ->dehydrateStateUsing(fn (?string $state) => Location::extractEmbedUrl($state)),
 
                                 Forms\Components\Toggle::make('is_main_branch')
                                     ->label('Jadikan Cabang Utama (Pusat)')

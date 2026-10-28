@@ -6,12 +6,13 @@
     <!-- ========================================================================= -->
     <!-- 1. HERO BANNER (Crisp Ultra-HD Banner + Dynamic Interactive Capsule Pill) -->
     <!-- ========================================================================= -->
-    <header class="relative w-full overflow-hidden shadow-md select-none bg-[#FFF5F9]" style="aspect-ratio: 436 / 220;">
+    <header class="relative w-full overflow-hidden select-none bg-[#FFF5F9] border-none outline-none shadow-none" style="aspect-ratio: 436 / 220; border: none !important; outline: none !important; box-shadow: none !important;">
         
         <!-- High-Definition Clean Graphic Banner (Clean Background without static pill) -->
         <img src="{{ asset('images/putri_header_banner_crisp_clean.png') }}" 
              alt="{{ $brandName }} – {{ $tagline }}" 
-             class="w-full h-full object-cover block select-none pointer-events-none"
+             class="w-full h-full object-cover block select-none pointer-events-none border-none outline-none"
+             style="border: none !important; outline: none !important;"
              draggable="false">
 
         <!-- Hidden Semantic Heading for SEO & Screen Readers -->

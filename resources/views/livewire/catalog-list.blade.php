@@ -101,21 +101,21 @@
                 </button>
             </div>
         @else
-            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                 @foreach($items as $item)
                     @php
                         $isNailArt = $item->category?->slug === 'nail-art' || str_contains($item->slug, 'nail');
                     @endphp
-                    <div class="bg-white rounded-2xl gold-border overflow-hidden flex flex-col shadow-xs hover:shadow-md transition-all duration-200 group">
+                    <div class="bg-white rounded-xl sm:rounded-2xl gold-border overflow-hidden flex flex-col shadow-xs hover:shadow-md transition-all duration-200 group">
                         
-                        <!-- Image Container (Compact aspect-ratio for Nail Art, Aspect 4:5 for other services) -->
-                        <div class="relative w-full {{ $isNailArt ? 'aspect-[4/3] max-h-36' : 'aspect-[4/5]' }} bg-pink-50 overflow-hidden cursor-pointer" wire:click="openDetail({{ $item->id }})">
+                        <!-- Image Container (Compact height for sleek view, ~110px on mobile) -->
+                        <div class="relative w-full aspect-[4/3] max-h-28 sm:max-h-36 bg-pink-50 overflow-hidden cursor-pointer" wire:click="openDetail({{ $item->id }})">
                             <img src="{{ $item->primary_image_url }}" 
                                  alt="{{ $item->name }}"
                                  loading="lazy"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
 
-                            <!-- Badge Overlay with Distinct Badges per Type -->
+                            <!-- Badge Overlay with Distinct Badges per Type (Compact) -->
                             @if($item->badge)
                                 @php
                                     $badgeGradient = match(true) {
@@ -147,56 +147,56 @@
                                         default => 'fa-solid fa-tag',
                                     };
                                 @endphp
-                                <div class="absolute top-2 right-2 z-10 bg-gradient-to-r {{ $badgeGradient }} text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs border border-white/40 flex items-center gap-1">
-                                    <i class="{{ $badgeIcon }} text-[8px]"></i>
+                                <div class="absolute top-1.5 right-1.5 z-10 bg-gradient-to-r {{ $badgeGradient }} text-white text-[7.5px] sm:text-[8.5px] font-bold px-1.5 py-0.5 rounded-full shadow-2xs border border-white/40 flex items-center gap-1">
+                                    <i class="{{ $badgeIcon }} text-[7px]"></i>
                                     <span>{{ $item->badge }}</span>
                                 </div>
                             @elseif($item->is_featured)
-                                <div class="absolute top-2 right-2 z-10 bg-[#C9A24B] text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs">
-                                    <i class="fa-solid fa-star text-[8px] mr-0.5"></i> Unggulan
+                                <div class="absolute top-1.5 right-1.5 z-10 bg-[#C9A24B] text-white text-[7.5px] sm:text-[8.5px] font-bold px-1.5 py-0.5 rounded-full shadow-2xs">
+                                    <i class="fa-solid fa-star text-[7px] mr-0.5"></i> Unggulan
                                 </div>
                             @endif
 
-                            <!-- Duration Badge -->
+                            <!-- Duration Badge (Compact) -->
                             @if($item->duration_minutes && !$isNailArt)
-                                <div class="absolute top-2 left-2 z-10 bg-black/50 backdrop-blur-xs text-white text-[9px] font-medium px-1.5 py-0.5 rounded-md flex items-center gap-1">
-                                    <i class="fa-regular fa-clock text-[9px]"></i>
+                                <div class="absolute top-1.5 left-1.5 z-10 bg-black/55 backdrop-blur-xs text-white text-[7.5px] sm:text-[8.5px] font-medium px-1.5 py-0.5 rounded flex items-center gap-1">
+                                    <i class="fa-regular fa-clock text-[7.5px]"></i>
                                     <span>{{ $item->duration_minutes }} mnt</span>
                                 </div>
                             @endif
 
                             <!-- Quick View Hint -->
-                            <div class="absolute inset-x-0 bottom-0 py-1 bg-gradient-to-t from-black/60 to-transparent text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-white text-[10px] font-semibold tracking-wide">Lihat Detail</span>
+                            <div class="absolute inset-x-0 bottom-0 py-0.5 bg-gradient-to-t from-black/60 to-transparent text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-white text-[9px] font-semibold tracking-wide">Lihat Detail</span>
                             </div>
                         </div>
 
-                        <!-- Content Details -->
-                        <div class="p-2.5 sm:p-3 flex flex-col flex-1 justify-between">
+                        <!-- Content Details (Compact & Sleek) -->
+                        <div class="p-2 sm:p-2.5 flex flex-col flex-1 justify-between">
                             <div>
-                                <span class="text-[9px] sm:text-[10px] font-medium text-[#8A6477] uppercase tracking-wider block mb-0.5">
+                                <span class="text-[7.5px] sm:text-[8.5px] font-medium text-[#8A6477] uppercase tracking-wider block mb-0.5">
                                     {{ $item->category?->name }}
                                 </span>
                                 
-                                <h3 wire:click="openDetail({{ $item->id }})" class="font-bold text-xs sm:text-sm text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-2 leading-snug cursor-pointer">
+                                <h3 wire:click="openDetail({{ $item->id }})" class="font-bold text-[11px] sm:text-xs text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-2 leading-tight cursor-pointer">
                                     {{ $item->name }}
                                 </h3>
 
                                 @if($item->short_description && !$isNailArt)
-                                    <p class="text-[10px] sm:text-[11px] text-[#8A6477] line-clamp-2 mt-1 leading-tight">
+                                    <p class="text-[9px] sm:text-[9.5px] text-[#8A6477] line-clamp-1 mt-0.5 leading-snug">
                                         {{ $item->short_description }}
                                     </p>
                                 @endif
                             </div>
 
-                            <!-- Price & CTA Button -->
-                            <div class="mt-2.5 pt-2 border-t border-pink-50">
-                                <div class="flex items-baseline gap-1.5 flex-wrap">
-                                    <span class="font-bold text-xs sm:text-sm text-[#C2095F]">
+                            <!-- Price & CTA Button (Compact) -->
+                            <div class="mt-1.5 pt-1.5 border-t border-pink-50">
+                                <div class="flex items-baseline gap-1 flex-wrap">
+                                    <span class="font-extrabold text-[11px] sm:text-xs text-[#C2095F]">
                                         {{ $item->formatted_price }}
                                     </span>
                                     @if($item->compare_price)
-                                        <span class="text-[10px] text-gray-400 line-through">
+                                        <span class="text-[8.5px] sm:text-[9px] text-gray-400 line-through">
                                             {{ format_rupiah($item->compare_price) }}
                                         </span>
                                     @endif
@@ -211,7 +211,7 @@
                                    target="_blank"
                                    rel="noopener noreferrer"
                                    wire:click="logWhatsAppClick({{ $item->id }})"
-                                   class="mt-2 w-full flex items-center justify-center gap-1.5 py-1.5 px-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#20bd5a] hover:to-[#0f7a6d] text-white rounded-full text-[11px] font-bold shadow-xs hover:shadow transition-all group-hover:scale-[1.02]">
+                                   class="mt-1.5 w-full flex items-center justify-center gap-1 py-1 sm:py-1.5 px-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#20bd5a] hover:to-[#0f7a6d] text-white rounded-full text-[10px] sm:text-[10.5px] font-bold shadow-2xs hover:shadow-xs transition-all active:scale-95">
                                     <i class="fa-brands fa-whatsapp text-xs"></i>
                                     <span>{{ $ctaText }}</span>
                                 </a>

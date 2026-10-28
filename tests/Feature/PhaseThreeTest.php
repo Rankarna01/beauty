@@ -106,6 +106,33 @@ class PhaseThreeTest extends TestCase
         $response->assertSee('Klaim Promo Ini via WhatsApp');
     }
 
+    public function test_promo_seeder_renders_flyer_items_cleanly(): void
+    {
+        $this->seed(\Database\Seeders\PromoSeeder::class);
+
+        $response = $this->get('/promo');
+
+        $response->assertStatus(200);
+        $response->assertSee('Creambath Premium + Catok');
+        $response->assertSee('80k');
+        $response->assertSee('Head Japanese Spa + Refleksi Kaki');
+        $response->assertSee('160k');
+        $response->assertSee('Hair Treatment');
+        $response->assertSee('Creambath Standar');
+        $response->assertSee('50k');
+        $response->assertSee('Treatment Tambahan');
+        $response->assertSee('High Frequency');
+        $response->assertSee('Nano Mist');
+        $response->assertSee('Nail Treatment');
+        $response->assertSee('Menicure');
+        $response->assertSee('Eye Treatment');
+        $response->assertSee('Lash Lift');
+        $response->assertSee('Messo Non Needle');
+        $response->assertSee('Bright & Glow', false);
+        $response->assertSee('Hair Removal IPL');
+        $response->assertSee('IPL Keti');
+    }
+
     public function test_livewire_catalog_search_filters_items(): void
     {
         Livewire::test(CatalogList::class)
