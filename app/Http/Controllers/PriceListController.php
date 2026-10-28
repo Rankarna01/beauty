@@ -11,10 +11,12 @@ class PriceListController extends Controller
 {
     public function index()
     {
-        $categories = Category::active()
-            ->with(['activeItems' => function ($query) {
-                $query->orderBy('sort_order');
-            }])
+        $categories = Category::parents()
+            ->active()
+            ->with([
+                'activeItems' => fn ($query) => $query->orderBy('sort_order'),
+                'children' => fn ($q) => $q->active()->with(['activeItems' => fn ($iq) => $iq->orderBy('sort_order')]),
+            ])
             ->get();
 
         $lastUpdated = CatalogItem::max('updated_at');

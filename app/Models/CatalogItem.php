@@ -94,9 +94,26 @@ class CatalogItem extends Model
     {
         $path = $this->images->first()?->image_path;
         if (! $path) {
-            return ($this->category?->slug === 'nail-art' || str_contains($this->slug, 'nail'))
-                ? asset('images/nail_art_default.jpg')
-                : 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80';
+            $catSlug = $this->category?->slug ?? '';
+            $itemSlug = $this->slug ?? '';
+
+            if ($catSlug === 'nail-art' || str_contains($itemSlug, 'nail-art') || str_contains($itemSlug, 'gel-polos') || str_contains($itemSlug, 'french-nail')) {
+                return asset('images/nail_art_default.jpg');
+            }
+
+            if ($catSlug === 'nail-treatment' || str_contains($itemSlug, 'menicure') || str_contains($itemSlug, 'pedicure') || str_contains($itemSlug, 'callus') || str_contains($itemSlug, 'footspa') || str_contains($itemSlug, 'menipedi') || str_contains($itemSlug, 'refleksi')) {
+                return asset('images/nail_treatment_default.jpg');
+            }
+
+            if ($catSlug === 'eye-treatment' || str_contains($itemSlug, 'lash')) {
+                return asset('images/eye_treatment_default.jpg');
+            }
+
+            if ($catSlug === 'hair-nail-spa' || str_contains($itemSlug, 'crembath') || str_contains($itemSlug, 'creambath') || str_contains($itemSlug, 'hair') || str_contains($itemSlug, 'head-japanese-spa')) {
+                return asset('images/hair_spa_default.jpg');
+            }
+
+            return 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=400&q=80';
         }
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {

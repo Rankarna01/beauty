@@ -17,6 +17,9 @@ class CatalogList extends Component
     #[Url(as: 'kategori')]
     public string $categorySlug = '';
 
+    #[Url(as: 'sub')]
+    public string $subCategorySlug = '';
+
     public string $typeFilter = 'all'; // all, service, product
 
     public ?int $selectedItemId = null;
@@ -24,13 +27,25 @@ class CatalogList extends Component
     public function mount(?string $category = null)
     {
         if ($category) {
-            $this->categorySlug = $category;
+            $cat = Category::where('slug', $category)->first();
+            if ($cat && $cat->parent_id) {
+                $this->categorySlug = $cat->parent->slug;
+                $this->subCategorySlug = $cat->slug;
+            } else {
+                $this->categorySlug = $category;
+            }
         }
     }
 
     public function selectCategory(string $slug = '')
     {
         $this->categorySlug = $slug;
+        $this->subCategorySlug = '';
+    }
+
+    public function selectSubCategory(string $slug = '')
+    {
+        $this->subCategorySlug = $slug;
     }
 
     public function openDetail(int $itemId)
@@ -67,9 +82,17 @@ class CatalogList extends Component
 
     public function render()
     {
-        $categories = Category::active()
+        $categories = Category::parents()
+            ->active()
+            ->with(['children' => fn($q) => $q->active()->withCount('activeItems')])
             ->withCount('activeItems')
             ->get();
+
+        $activeCategory = !empty($this->categorySlug)
+            ? $categories->firstWhere('slug', $this->categorySlug)
+            : null;
+
+        $subCategories = $activeCategory?->children ?? collect();
 
         $query = CatalogItem::active()
             ->with(['category', 'images']);
@@ -82,10 +105,15 @@ class CatalogList extends Component
             });
         }
 
-        if (! empty($this->categorySlug)) {
+        if (! empty($this->subCategorySlug)) {
             $query->whereHas('category', function ($q) {
-                $q->where('slug', $this->categorySlug);
+                $q->where('slug', $this->subCategorySlug);
             });
+        } elseif (! empty($this->categorySlug)) {
+            if ($activeCategory) {
+                $catIds = $activeCategory->children->pluck('id')->push($activeCategory->id);
+                $query->whereIn('category_id', $catIds);
+            }
         }
 
         if ($this->typeFilter !== 'all') {
@@ -102,6 +130,8 @@ class CatalogList extends Component
 
         return view('livewire.catalog-list', [
             'categories' => $categories,
+            'activeCategory' => $activeCategory,
+            'subCategories' => $subCategories,
             'items' => $items,
             'selectedItem' => $selectedItem,
         ]);

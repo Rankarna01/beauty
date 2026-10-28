@@ -52,8 +52,13 @@
 
         <!-- Grouped Price Tables -->
         @foreach($categories as $category)
-            @if($category->activeItems->isNotEmpty())
-                <div class="bg-white rounded-2xl gold-border overflow-hidden shadow-xs">
+            @php
+                $hasDirectItems = $category->activeItems->isNotEmpty();
+                $hasChildItems = $category->children->contains(fn($child) => $child->activeItems->isNotEmpty());
+                $totalCatCount = $category->activeItems->count() + $category->children->sum(fn($c) => $c->activeItems->count());
+            @endphp
+            @if($hasDirectItems || $hasChildItems)
+                <div class="bg-white rounded-2xl gold-border overflow-hidden shadow-xs flex flex-col">
                     
                     <!-- Category Header -->
                     <div class="bg-gradient-to-r from-[#FFF0F6] via-white to-[#FFF0F6] px-4 py-2.5 border-b border-pink-100 flex items-center justify-between">
@@ -61,9 +66,6 @@
                             <span class="text-sm text-[#C2095F]">
                                 @if(str_contains($category->icon ?? '', 'fa-'))
                                     <i class="{{ $category->icon }}"></i>
-                                @elseif($category->icon === 'scissors') ✂️
-                                @elseif($category->icon === 'heart') 💆‍♀️
-                                @elseif($category->icon === 'shopping-bag') 🛍️
                                 @else <i class="fa-solid fa-sparkles"></i>
                                 @endif
                             </span>
@@ -72,78 +74,182 @@
                             </h3>
                         </div>
                         <span class="text-[10px] text-[#8A6477] font-medium bg-pink-50 px-2 py-0.5 rounded-full">
-                            {{ $category->activeItems->count() }} Pilihan
+                            {{ $totalCatCount }} Pilihan
                         </span>
                     </div>
 
-                    <!-- Items Rows -->
-                    <div class="divide-y divide-pink-50">
-                        @foreach($category->activeItems as $item)
-                            <div class="p-3 sm:p-3.5 flex items-center justify-between gap-3 hover:bg-rose-50/20 transition-colors">
-                                
-                                <!-- Left Info -->
-                                <div class="flex flex-col flex-1 min-w-0">
-                                    <div class="flex items-center gap-1.5 flex-wrap">
-                                        <a href="{{ route('catalog.show', ['category' => $category->slug, 'item' => $item->slug]) }}" 
-                                           class="font-semibold text-xs sm:text-sm text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-1">
-                                            {{ $item->name }}
+                    <!-- Direct Items Rows -->
+                    @if($hasDirectItems)
+                        <div class="divide-y divide-pink-50">
+                            @foreach($category->activeItems as $item)
+                                <div class="p-3 sm:p-3.5 flex items-center justify-between gap-3 hover:bg-rose-50/20 transition-colors">
+                                    <div class="flex flex-col flex-1 min-w-0">
+                                        <div class="flex items-center gap-1.5 flex-wrap">
+                                            <a href="{{ route('catalog.show', ['category' => $category->slug, 'item' => $item->slug]) }}" 
+                                               class="font-semibold text-xs sm:text-sm text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-1">
+                                                {{ $item->name }}
+                                            </a>
+                                            @if($item->badge)
+                                                @php
+                                                    $badgeStyle = match(true) {
+                                                        str_contains($item->badge, 'Basic') => 'bg-teal-100 text-teal-800 border border-teal-200',
+                                                        str_contains($item->badge, 'Premiere') => 'bg-amber-100 text-amber-800 border border-amber-300',
+                                                        str_contains($item->badge, 'Peeling') => 'bg-purple-100 text-purple-800 border border-purple-200',
+                                                        str_contains($item->badge, 'Dermapen') => 'bg-rose-100 text-rose-800 border border-rose-300 font-extrabold',
+                                                        str_contains($item->badge, 'Eye') => 'bg-purple-100 text-purple-700 border border-purple-200',
+                                                        str_contains($item->badge, 'Nail Treatment') => 'bg-rose-100 text-rose-700 border border-rose-200',
+                                                        str_contains($item->badge, 'Nail Art') => 'bg-pink-100 text-pink-700 border border-pink-200',
+                                                        str_contains($item->badge, 'Japanese') || str_contains($item->badge, 'Head Spa') => 'bg-amber-100 text-amber-800 border border-amber-300 font-extrabold',
+                                                        str_contains($item->badge, 'Hair') => 'bg-sky-100 text-sky-700 border border-sky-200',
+                                                        str_contains($item->badge, 'Produk') => 'bg-emerald-100 text-emerald-700 border border-emerald-200',
+                                                        default => 'bg-[#FFE4EF] text-[#C2095F]',
+                                                    };
+                                                @endphp
+                                                <span class="{{ $badgeStyle }} text-[9px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0">
+                                                    {{ $item->badge }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        @if($item->short_description)
+                                            <p class="text-[10px] sm:text-[11px] text-[#8A6477] line-clamp-1 mt-0.5">
+                                                {{ $item->short_description }}
+                                            </p>
+                                        @endif
+                                        @if($item->duration_minutes)
+                                            <span class="text-[9px] text-[#8A6477] font-medium mt-0.5">
+                                                Durasi: ±{{ $item->duration_minutes }} menit
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                                        <div class="flex flex-col items-end text-right">
+                                            <span class="font-bold text-xs sm:text-sm text-[#C2095F]">
+                                                {{ $item->formatted_price }}
+                                            </span>
+                                            @if($item->compare_price)
+                                                <span class="text-[10px] text-gray-400 line-through">
+                                                    {{ format_rupiah($item->compare_price) }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        @php
+                                            $waBookingLink = \App\Services\WhatsAppLink::build('booking', [
+                                                'nama' => 'Pelanggan',
+                                                'layanan' => $item->name,
+                                                'tanggal' => date('d-m-Y'),
+                                                'jam' => 'Jadwal terdekat',
+                                                'catatan' => 'Booking langsung dari daftar harga'
+                                            ]);
+                                        @endphp
+                                        <a href="{{ $waBookingLink }}"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="no-print p-1.5 sm:px-2.5 sm:py-1 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-[10px] sm:text-xs font-bold shadow-2xs hover:shadow transition-all flex items-center gap-1">
+                                            <i class="fa-brands fa-whatsapp text-xs"></i>
+                                            <span class="hidden sm:inline">Booking</span>
                                         </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
 
-                                        @if($item->badge)
-                                            <span class="bg-[#FFE4EF] text-[#C2095F] text-[9px] font-bold px-1.5 py-0.2 rounded-md">
-                                                {{ $item->badge }}
+                    <!-- Sub-Treatment Categories Groups -->
+                    @if($hasChildItems)
+                        <div class="flex flex-col">
+                            @foreach($category->children as $child)
+                                @if($child->activeItems->isNotEmpty())
+                                    <!-- Sub-Category Header with Promo Note -->
+                                    <div class="bg-gradient-to-r from-pink-50/70 to-rose-50/40 px-4 py-2 border-t border-pink-100 flex items-center justify-between flex-wrap gap-1.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <i class="{{ $child->icon ?: 'fa-solid fa-sparkles' }} text-xs text-[#C2095F]"></i>
+                                            <span class="font-bold text-xs text-[#C2095F] uppercase tracking-wider">
+                                                {{ $child->name }}
+                                            </span>
+                                            <span class="text-[9px] text-[#8A6477]">({{ $child->activeItems->count() }})</span>
+                                        </div>
+                                        @if($child->slug === 'basic-treatment')
+                                            <span class="text-[9.5px] font-bold text-emerald-800 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300">
+                                                🎉 Note: Tambah 1 Treatment jadi Rp 150.000
+                                            </span>
+                                        @elseif($child->slug === 'premiere-treatment')
+                                            <span class="text-[9.5px] font-bold text-amber-900 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-300">
+                                                ✨ Note: Tambah 1 Jadi Rp 200.000 + FREE Microdermabrasi
                                             </span>
                                         @endif
                                     </div>
 
-                                    @if($item->short_description)
-                                        <p class="text-[10px] sm:text-[11px] text-[#8A6477] line-clamp-1 mt-0.5">
-                                            {{ $item->short_description }}
-                                        </p>
-                                    @endif
-
-                                    @if($item->duration_minutes)
-                                        <span class="text-[9px] text-[#8A6477] font-medium mt-0.5">
-                                            Durasi: ±{{ $item->duration_minutes }} menit
-                                        </span>
-                                    @endif
-                                </div>
-
-                                <!-- Right Price & Booking Button -->
-                                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                                    <div class="flex flex-col items-end text-right">
-                                        <span class="font-bold text-xs sm:text-sm text-[#C2095F]">
-                                            {{ $item->formatted_price }}
-                                        </span>
-                                        @if($item->compare_price)
-                                            <span class="text-[10px] text-gray-400 line-through">
-                                                {{ format_rupiah($item->compare_price) }}
-                                            </span>
-                                        @endif
+                                    <!-- Sub-Category Items Rows -->
+                                    <div class="divide-y divide-pink-50">
+                                        @foreach($child->activeItems as $item)
+                                            <div class="p-3 sm:p-3.5 flex items-center justify-between gap-3 hover:bg-rose-50/20 transition-colors">
+                                                <div class="flex flex-col flex-1 min-w-0">
+                                                    <div class="flex items-center gap-1.5 flex-wrap">
+                                                        <a href="{{ route('catalog.show', ['category' => $child->slug, 'item' => $item->slug]) }}" 
+                                                           class="font-semibold text-xs sm:text-sm text-[#3B1A2B] hover:text-[#E6107A] transition-colors line-clamp-1">
+                                                            {{ $item->name }}
+                                                        </a>
+                                                        @if($item->badge)
+                                                            @php
+                                                                $badgeStyle = match(true) {
+                                                                    str_contains($item->badge, 'Basic') => 'bg-teal-100 text-teal-800 border border-teal-200',
+                                                                    str_contains($item->badge, 'Premiere') => 'bg-amber-100 text-amber-800 border border-amber-300',
+                                                                    str_contains($item->badge, 'Peeling') => 'bg-purple-100 text-purple-800 border border-purple-200',
+                                                                    str_contains($item->badge, 'Dermapen') => 'bg-rose-100 text-rose-800 border border-rose-300 font-extrabold',
+                                                                    default => 'bg-[#FFE4EF] text-[#C2095F]',
+                                                                };
+                                                            @endphp
+                                                            <span class="{{ $badgeStyle }} text-[9px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0">
+                                                                {{ $item->badge }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    @if($item->short_description)
+                                                        <p class="text-[10px] sm:text-[11px] text-[#8A6477] line-clamp-1 mt-0.5">
+                                                            {{ $item->short_description }}
+                                                        </p>
+                                                    @endif
+                                                    @if($item->duration_minutes)
+                                                        <span class="text-[9px] text-[#8A6477] font-medium mt-0.5">
+                                                            Durasi: ±{{ $item->duration_minutes }} menit
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                                                    <div class="flex flex-col items-end text-right">
+                                                        <span class="font-bold text-xs sm:text-sm text-[#C2095F]">
+                                                            {{ $item->formatted_price }}
+                                                        </span>
+                                                        @if($item->compare_price)
+                                                            <span class="text-[10px] text-gray-400 line-through">
+                                                                {{ format_rupiah($item->compare_price) }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    @php
+                                                        $waBookingLink = \App\Services\WhatsAppLink::build('booking', [
+                                                            'nama' => 'Pelanggan',
+                                                            'layanan' => $item->name,
+                                                            'tanggal' => date('d-m-Y'),
+                                                            'jam' => 'Jadwal terdekat',
+                                                            'catatan' => 'Booking langsung dari daftar harga'
+                                                        ]);
+                                                    @endphp
+                                                    <a href="{{ $waBookingLink }}"
+                                                       target="_blank"
+                                                       rel="noopener noreferrer"
+                                                       class="no-print p-1.5 sm:px-2.5 sm:py-1 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-[10px] sm:text-xs font-bold shadow-2xs hover:shadow transition-all flex items-center gap-1">
+                                                        <i class="fa-brands fa-whatsapp text-xs"></i>
+                                                        <span class="hidden sm:inline">Booking</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-
-                                    <!-- Quick Booking Button (Hidden on Print) -->
-                                    @php
-                                        $waBookingLink = \App\Services\WhatsAppLink::build('booking', [
-                                            'nama' => 'Pelanggan',
-                                            'layanan' => $item->name,
-                                            'tanggal' => date('d-m-Y'),
-                                            'jam' => 'Jadwal terdekat',
-                                            'catatan' => 'Booking langsung dari daftar harga'
-                                        ]);
-                                    @endphp
-                                    <a href="{{ $waBookingLink }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       class="no-print p-1.5 sm:px-2.5 sm:py-1 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-[10px] sm:text-xs font-bold shadow-2xs hover:shadow transition-all flex items-center gap-1">
-                                        <i class="fa-brands fa-whatsapp text-xs"></i>
-                                        <span class="hidden sm:inline">Booking</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
 
                 </div>
             @endif

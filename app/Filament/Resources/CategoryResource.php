@@ -44,6 +44,14 @@ class CategoryResource extends Resource
                             ->maxLength(120)
                             ->unique(ignoreRecord: true),
 
+                        Forms\Components\Select::make('parent_id')
+                            ->label('Kategori Induk (Sub-Treatment dari)')
+                            ->relationship('parent', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Pilih jika ini sub-kategori (mis. Basic/Premiere Treatment)')
+                            ->nullable(),
+
                         Forms\Components\Select::make('type')
                             ->label('Tipe Kategori')
                             ->options([
@@ -54,8 +62,8 @@ class CategoryResource extends Resource
                             ->required(),
 
                         Forms\Components\TextInput::make('icon')
-                            ->label('Nama Ikon (Heroicons)')
-                            ->placeholder('sparkles, heart, scissors')
+                            ->label('Nama Ikon (Heroicons/FontAwesome)')
+                            ->placeholder('fa-solid fa-spa, fa-solid fa-gem')
                             ->maxLength(100),
 
                         Forms\Components\Textarea::make('description')
@@ -82,6 +90,13 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('parent.name')
+                    ->label('Induk Kategori')
+                    ->placeholder('Kategori Utama')
+                    ->badge()
+                    ->color('gray')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('type')

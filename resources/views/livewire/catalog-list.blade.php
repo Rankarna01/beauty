@@ -51,14 +51,38 @@
                 <span>Semua</span>
             </button>
             @foreach($categories as $category)
+                @php
+                    $catCount = $category->active_items_count + $category->children->sum('active_items_count');
+                @endphp
                 <button wire:click="selectCategory('{{ $category->slug }}')"
                         class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 {{ $categorySlug === $category->slug ? 'bg-[#E6107A] text-white shadow-xs' : 'bg-white text-[#8A6477] border border-pink-200 hover:border-[#E6107A]' }}">
                     <i class="{{ $category->icon ?: 'fa-solid fa-tag' }} text-[11px]"></i>
                     <span>{{ $category->name }}</span>
-                    <span class="text-[10px] opacity-80">({{ $category->active_items_count }})</span>
+                    <span class="text-[10px] opacity-80">({{ $catCount }})</span>
                 </button>
             @endforeach
         </div>
+
+        <!-- Sub-Treatment Filter Pills (e.g. Basic, Premiere, Peeling, Dermapen) -->
+        @if($subCategories->isNotEmpty())
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 pb-1.5 border-t border-pink-100/80 mt-1.5">
+                <span class="text-[10px] font-bold text-[#C2095F] uppercase tracking-wider pl-1 pr-0.5 flex items-center gap-1 whitespace-nowrap">
+                    <i class="fa-solid fa-sliders text-[9px]"></i> Sub:
+                </span>
+                <button wire:click="selectSubCategory('')"
+                        class="px-3 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all {{ empty($subCategorySlug) ? 'bg-[#C2095F] text-white shadow-2xs' : 'bg-white text-[#8A6477] border border-pink-100 hover:bg-pink-50' }}">
+                    Semua Sub-Treatment
+                </button>
+                @foreach($subCategories as $subCat)
+                    <button wire:click="selectSubCategory('{{ $subCat->slug }}')"
+                            class="px-3 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 {{ $subCategorySlug === $subCat->slug ? 'bg-[#C2095F] text-white shadow-2xs' : 'bg-white text-[#8A6477] border border-pink-100 hover:bg-pink-50' }}">
+                        <i class="{{ $subCat->icon ?: 'fa-solid fa-tag' }} text-[9px]"></i>
+                        <span>{{ $subCat->name }}</span>
+                        <span class="text-[9px] opacity-80">({{ $subCat->active_items_count }})</span>
+                    </button>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <!-- Catalog Items Grid -->
@@ -91,10 +115,41 @@
                                  loading="lazy"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
 
-                            <!-- Badge Overlay -->
+                            <!-- Badge Overlay with Distinct Badges per Type -->
                             @if($item->badge)
-                                <div class="absolute top-2 right-2 z-10 bg-gradient-to-r from-[#FF1A8C] to-[#C2095F] text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs border border-white/40">
-                                    {{ $item->badge }}
+                                @php
+                                    $badgeGradient = match(true) {
+                                        str_contains($item->badge, 'Basic') => 'from-[#0D9488] to-[#047857]',
+                                        str_contains($item->badge, 'Premiere') => 'from-[#F59E0B] to-[#D97706]',
+                                        str_contains($item->badge, 'Peeling') => 'from-[#A855F7] to-[#7E22CE]',
+                                        str_contains($item->badge, 'Dermapen') => 'from-[#E11D48] to-[#9F1239]',
+                                        str_contains($item->badge, 'Eye') => 'from-[#8B5CF6] to-[#6D28D9]',
+                                        str_contains($item->badge, 'Nail Treatment') => 'from-[#F43F5E] to-[#BE123C]',
+                                        str_contains($item->badge, 'Nail Art') => 'from-[#FF1A8C] to-[#C2095F]',
+                                        str_contains($item->badge, 'Japanese') || str_contains($item->badge, 'Head Spa') => 'from-[#D97706] to-[#B45309]',
+                                        str_contains($item->badge, 'Hair') => 'from-[#0284C7] to-[#0369A1]',
+                                        str_contains($item->badge, 'Produk') => 'from-[#10B981] to-[#059669]',
+                                        str_contains($item->badge, 'Skincare') || str_contains($item->badge, 'Facial') => 'from-[#EC4899] to-[#BE185D]',
+                                        default => 'from-[#FF1A8C] to-[#C2095F]',
+                                    };
+                                    $badgeIcon = match(true) {
+                                        str_contains($item->badge, 'Basic') => 'fa-solid fa-seedling',
+                                        str_contains($item->badge, 'Premiere') => 'fa-solid fa-gem',
+                                        str_contains($item->badge, 'Peeling') => 'fa-solid fa-wand-magic-sparkles',
+                                        str_contains($item->badge, 'Dermapen') => 'fa-solid fa-syringe',
+                                        str_contains($item->badge, 'Eye') => 'fa-solid fa-eye',
+                                        str_contains($item->badge, 'Nail Treatment') => 'fa-solid fa-hand-holding-heart',
+                                        str_contains($item->badge, 'Nail Art') => 'fa-solid fa-hand-sparkles',
+                                        str_contains($item->badge, 'Japanese') || str_contains($item->badge, 'Head Spa') => 'fa-solid fa-crown',
+                                        str_contains($item->badge, 'Hair') => 'fa-solid fa-scissors',
+                                        str_contains($item->badge, 'Produk') => 'fa-solid fa-pump-soap',
+                                        str_contains($item->badge, 'Skincare') || str_contains($item->badge, 'Facial') => 'fa-solid fa-spa',
+                                        default => 'fa-solid fa-tag',
+                                    };
+                                @endphp
+                                <div class="absolute top-2 right-2 z-10 bg-gradient-to-r {{ $badgeGradient }} text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs border border-white/40 flex items-center gap-1">
+                                    <i class="{{ $badgeIcon }} text-[8px]"></i>
+                                    <span>{{ $item->badge }}</span>
                                 </div>
                             @elseif($item->is_featured)
                                 <div class="absolute top-2 right-2 z-10 bg-[#C9A24B] text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-xs">
@@ -188,8 +243,39 @@
                     </button>
 
                     @if($selectedItem->badge)
-                        <div class="absolute bottom-3 left-3 bg-[#E6107A] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">
-                            {{ $selectedItem->badge }}
+                        @php
+                            $modalBadgeGrad = match(true) {
+                                str_contains($selectedItem->badge, 'Basic') => 'from-[#0D9488] to-[#047857]',
+                                str_contains($selectedItem->badge, 'Premiere') => 'from-[#F59E0B] to-[#D97706]',
+                                str_contains($selectedItem->badge, 'Peeling') => 'from-[#A855F7] to-[#7E22CE]',
+                                str_contains($selectedItem->badge, 'Dermapen') => 'from-[#E11D48] to-[#9F1239]',
+                                str_contains($selectedItem->badge, 'Eye') => 'from-[#8B5CF6] to-[#6D28D9]',
+                                str_contains($selectedItem->badge, 'Nail Treatment') => 'from-[#F43F5E] to-[#BE123C]',
+                                str_contains($selectedItem->badge, 'Nail Art') => 'from-[#FF1A8C] to-[#C2095F]',
+                                str_contains($selectedItem->badge, 'Japanese') || str_contains($selectedItem->badge, 'Head Spa') => 'from-[#D97706] to-[#B45309]',
+                                str_contains($selectedItem->badge, 'Hair') => 'from-[#0284C7] to-[#0369A1]',
+                                str_contains($selectedItem->badge, 'Produk') => 'from-[#10B981] to-[#059669]',
+                                str_contains($selectedItem->badge, 'Skincare') || str_contains($selectedItem->badge, 'Facial') => 'from-[#EC4899] to-[#BE185D]',
+                                default => 'from-[#FF1A8C] to-[#C2095F]',
+                            };
+                            $modalBadgeIco = match(true) {
+                                str_contains($selectedItem->badge, 'Basic') => 'fa-solid fa-seedling',
+                                str_contains($selectedItem->badge, 'Premiere') => 'fa-solid fa-gem',
+                                str_contains($selectedItem->badge, 'Peeling') => 'fa-solid fa-wand-magic-sparkles',
+                                str_contains($selectedItem->badge, 'Dermapen') => 'fa-solid fa-syringe',
+                                str_contains($selectedItem->badge, 'Eye') => 'fa-solid fa-eye',
+                                str_contains($selectedItem->badge, 'Nail Treatment') => 'fa-solid fa-hand-holding-heart',
+                                str_contains($selectedItem->badge, 'Nail Art') => 'fa-solid fa-hand-sparkles',
+                                str_contains($selectedItem->badge, 'Japanese') || str_contains($selectedItem->badge, 'Head Spa') => 'fa-solid fa-crown',
+                                str_contains($selectedItem->badge, 'Hair') => 'fa-solid fa-scissors',
+                                str_contains($selectedItem->badge, 'Produk') => 'fa-solid fa-pump-soap',
+                                str_contains($selectedItem->badge, 'Skincare') || str_contains($selectedItem->badge, 'Facial') => 'fa-solid fa-spa',
+                                default => 'fa-solid fa-tag',
+                            };
+                        @endphp
+                        <div class="absolute bottom-3 left-3 bg-gradient-to-r {{ $modalBadgeGrad }} text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md border border-white/30 flex items-center gap-1.5">
+                            <i class="{{ $modalBadgeIco }} text-[9px]"></i>
+                            <span>{{ $selectedItem->badge }}</span>
                         </div>
                     @endif
                 </div>
