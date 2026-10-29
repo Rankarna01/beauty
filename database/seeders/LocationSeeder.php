@@ -26,7 +26,7 @@ class LocationSeeder extends Seeder
             ]
         );
 
-        // Jam Operasional: Senin - Minggu 09:00 - 21:00 WIB
+        // Jam Operasional: Senin - Minggu 09:00 - 18:00 WIB
         // day_of_week: 0 = Minggu, 1 = Senin, ..., 6 = Sabtu
         for ($day = 0; $day <= 6; $day++) {
             OperatingHour::updateOrCreate(
@@ -36,7 +36,7 @@ class LocationSeeder extends Seeder
                 ],
                 [
                     'opens_at' => '09:00:00',
-                    'closes_at' => '21:00:00',
+                    'closes_at' => '18:00:00',
                     'is_closed' => false,
                 ]
             );

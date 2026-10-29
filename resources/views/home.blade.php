@@ -225,7 +225,7 @@
                             <img src="{{ asset('images/gold_alarm_clock.jpg') }}" alt="Jam Operasional" class="w-full h-full object-contain rounded-full">
                         </div>
 
-                        <!-- Schedule: SENIN - MINGGU | 09.00 - 21.00 WIB -->
+                        <!-- Schedule: SENIN - MINGGU | 09.00 - 18.00 WIB -->
                         <div class="flex items-center gap-2 sm:gap-3">
                             <div class="bg-[#FFE4EF] text-[#C2095F] font-extrabold text-xs sm:text-sm px-3.5 sm:px-4 py-1.5 rounded-full border border-pink-200/90 shadow-xs tracking-tight whitespace-nowrap">
                                 SENIN - MINGGU
@@ -234,7 +234,7 @@
                             <div class="h-8 w-[1.5px] bg-[#C2095F]/30 flex-shrink-0"></div>
 
                             <div class="flex flex-col items-center justify-center leading-none text-[#C2095F] text-center">
-                                <span class="font-black text-base sm:text-xl tracking-tight">09.00 - 21.00</span>
+                                <span class="font-black text-base sm:text-xl tracking-tight">09.00 - 18.00</span>
                                 <span class="font-bold text-[10px] sm:text-xs text-[#C2095F]/85 tracking-widest mt-1">WIB</span>
                             </div>
                         </div>

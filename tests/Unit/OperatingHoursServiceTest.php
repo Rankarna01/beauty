@@ -22,12 +22,12 @@ class OperatingHoursServiceTest extends TestCase
             'is_active' => true,
         ]);
 
-        // Jadwal Senin: 09:00:00 - 21:00:00
+        // Jadwal Senin: 09:00:00 - 18:00:00
         OperatingHour::create([
             'location_id' => $location->id,
             'day_of_week' => 1, // Senin
             'opens_at' => '09:00:00',
-            'closes_at' => '21:00:00',
+            'closes_at' => '18:00:00',
             'is_closed' => false,
         ]);
 
@@ -35,8 +35,8 @@ class OperatingHoursServiceTest extends TestCase
         $mondayOpen = Carbon::parse('2026-10-26 14:00:00', 'Asia/Jakarta'); // 2026-10-26 is Monday
         $this->assertTrue(OperatingHoursService::isOpenNow($location, $mondayOpen));
 
-        // Simulasi waktu Senin jam 22:00 (tutup)
-        $mondayClosed = Carbon::parse('2026-10-26 22:00:00', 'Asia/Jakarta');
+        // Simulasi waktu Senin jam 20:00 (tutup)
+        $mondayClosed = Carbon::parse('2026-10-26 20:00:00', 'Asia/Jakarta');
         $this->assertFalse(OperatingHoursService::isOpenNow($location, $mondayClosed));
 
         // Simulasi waktu Senin jam 07:00 (belum buka)
@@ -58,7 +58,7 @@ class OperatingHoursServiceTest extends TestCase
             'location_id' => $location->id,
             'day_of_week' => 0, // Minggu
             'opens_at' => '09:00:00',
-            'closes_at' => '21:00:00',
+            'closes_at' => '18:00:00',
             'is_closed' => true,
         ]);
 
@@ -79,13 +79,13 @@ class OperatingHoursServiceTest extends TestCase
             'location_id' => $location->id,
             'day_of_week' => 1, // Senin
             'opens_at' => '09:00:00',
-            'closes_at' => '21:00:00',
+            'closes_at' => '18:00:00',
             'is_closed' => false,
         ]);
 
         $monday = Carbon::parse('2026-10-26 10:00:00', 'Asia/Jakarta');
-        $this->assertSame('09:00 - 21:00 WIB', OperatingHoursService::getTodayHoursText($location, $monday));
-        $this->assertSame('09:00 - 21:00 WIB', (new OperatingHoursService())->getTodayHoursText($location, $monday));
+        $this->assertSame('09:00 - 18:00 WIB', OperatingHoursService::getTodayHoursText($location, $monday));
+        $this->assertSame('09:00 - 18:00 WIB', (new OperatingHoursService())->getTodayHoursText($location, $monday));
     }
 
     public function test_it_returns_status_badge(): void
@@ -101,7 +101,7 @@ class OperatingHoursServiceTest extends TestCase
             'location_id' => $location->id,
             'day_of_week' => 1, // Senin
             'opens_at' => '09:00:00',
-            'closes_at' => '21:00:00',
+            'closes_at' => '18:00:00',
             'is_closed' => false,
         ]);
 
@@ -110,7 +110,7 @@ class OperatingHoursServiceTest extends TestCase
 
         $this->assertTrue($badge['is_open']);
         $this->assertSame('Buka Sekarang', $badge['label']);
-        $this->assertSame('09:00 - 21:00 WIB', $badge['hours_text']);
+        $this->assertSame('09:00 - 18:00 WIB', $badge['hours_text']);
         $this->assertSame('Senin', $badge['day_name']);
     }
 }

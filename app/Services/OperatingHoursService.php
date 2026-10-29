@@ -60,7 +60,7 @@ class OperatingHoursService
     {
         $schedule = self::getTodaySchedule($location, $customTime);
 
-        return $schedule ? $schedule->formatted_hours : '09.00 - 21.00 WIB';
+        return $schedule ? $schedule->formatted_hours : '09.00 - 18.00 WIB';
     }
 
     /**
